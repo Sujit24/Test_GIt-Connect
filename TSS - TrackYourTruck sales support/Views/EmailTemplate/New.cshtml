@@ -1,0 +1,264 @@
+﻿@model TSS.Models.ViewModel.EmailTemplateViewModel
+@{
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+    ViewBag.Title = "TSS - TrackYourTruck sales support";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Scripts/libs/SCEditor/themes/modern.min.css")?@version" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/libs/SCEditor/jquery.sceditor.bbcode.min.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.min.js")?@version" type="text/javascript"></script>
+<div class="content-inner">
+    <div class="container-fluid">
+        <div class="contentHolder">
+            <div class="row-fluid">
+                <div class="span12">
+                    <br />
+                    <h2>
+                        Email Template</h2>
+                    <hr style="border-color: yellowgreen;" />
+                    <div class="contentHolder">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                @using (Html.BeginForm("Save", "EmailTemplate", FormMethod.Post, new { id = "mainForm", name = "mainForm" }))
+                                {
+                                    <table style="width: 90%;">
+                                        <tr>
+                                            <td valign="top" style="width: 110px;">
+                                                Template Title:
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m.Title, new { style = "width: 50%" }) <span style="color: red">
+                                                    *</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top">
+                                                Template:
+                                            </td>
+                                            <td>
+                                                @Html.TextAreaFor(m => m.Template, new { style = "width: 100%; height: 400px" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <br />
+                                                <button class="btn btn-primary" type="submit" onclick="return Validate();">
+                                                    Save Template</button>
+                                                &nbsp;
+                                                <button class="btn btn-info" type="button" onclick="EmailPreview();">
+                                                    Preview</button>
+                                                &nbsp;
+                                                <button class="btn" type="button" onclick="javascript: location.href = baseUrl + '/EmailTemplate/List';">
+                                                    Cancel</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#Template").val($("#defaulrEmailTemplate").html());
+
+        $("#Template").sceditor({
+            plugins: 'xhtml',
+            toolbar: 'source|bold,italic,underline|left,center,right|font,size,color,removeformat|cut,copy,paste,pastetext|bulletlist,orderedlist,table|quote,image,email,link,unlink|maximize',
+            width: '100%',
+            resizeMaxWidth: '100%',
+            resizeMinWidth: '100%',
+            height: '100%',
+            style: baseUrl + "/Scripts/libs/SCEditor/jquery.sceditor.default.min.css",
+            emoticonsEnabled: false
+        });
+        $(".sceditor-container iframe").css('width', '98%');
+        $(".sceditor-container iframe").css('height', '400px');
+
+        $("#mainForm").ajaxForm({
+            beforeSubmit: function (formData, jqForm, options) {
+                $("#Template").val($("#Template").sceditor('instance').getBody().html());
+            },
+            success: function (result, statusText) {
+                if (result.Message == "Successfully Saved.") {
+                    alert("Email Template Successfully Saved.");
+                    location.href = baseUrl + "/EmailTemplate/List";
+                }
+                else {
+                    alert("Email Template Save Failed.");
+                }
+            },
+            error: function () {
+            }
+        });
+    });
+
+    function Validate() {
+        if ($("#Title").val().trim() == '') {
+            alert('Please enter template title');
+            return false;
+        }
+
+        return true;
+    }
+
+    function EmailPreview() {
+        var emailHtml = $("#Template").sceditor('instance').getBody().html();
+
+        var newwindow = window.open();
+        var newDocument = newwindow.document;
+        newDocument.write(emailHtml);
+        newDocument.close();
+    }
+</script>
+<script id="defaulrEmailTemplate" type="text/x-kendo-template">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>TSS Email</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<style type="text/css">
+    .social
+    {
+        display: block;
+        float: left;
+        height: 30px;
+        margin: 0 10px 0 0;
+        width: 30px;
+    }
+</style>
+<table style="margin: 0px  auto; color: #000000;" class="content" border="0" cellspacing="10"
+    cellpadding="0" width="600" bgcolor="#f2f2f4" align="center">
+    <tbody>
+        <tr>
+            <td>
+                <table style="color: #000000;" border="0" cellspacing="0" cellpadding="3" width="100%"
+                    bgcolor="#396a87">
+                    <tbody>
+                        <tr>
+                            <td style="line-height: 1px; font-size: 1px;" height="1">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="border-bottom: #dadbdd  1px  solid; border-left: #dadbdd  1px  solid;
+                    padding-bottom: 10px; color: #000000; border-top: 0px; border-right: #dadbdd  1px  solid;"
+                    border="0" cellspacing="0" cellpadding="10" width="100%" bgcolor="white">
+                    <tbody>
+                        <tr style="border-bottom: #dadbdd  1px  solid; color: #333333;" bgcolor="#f7f9fb">
+                            <td style="padding-bottom: 15px; padding-left: 25px; padding-right: 25px; padding-top: 0px;">
+                                <table style="padding-bottom: 10px; table-layout: fixed; color: #333333;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img style="vertical-align: top; padding-top: 5px;"
+                                                    alt="company_logo" src="https://secure.trackyourtruck.com/TYTQuote/Content/Images/logo-email.png" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table style="width: 100%; color: #333333;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <table style="padding-bottom: 20px; padding-right: 15px; color: #333333;" border="0"
+                                                    cellspacing="0" cellpadding="0" align="left">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding-right: 15px; margin-right: 0px; border-right: #dee6f2  2px  solid;"
+                                                                nowrap="">
+                                                                <p style="margin: 0px  0px  5px; color: #516d88; font-size: 12px;" class="inv_headers">
+                                                                    QUOTE #</p>
+                                                                <p style="margin: 0px; font-size: 18px;" class="inv_val">
+                                                                    $QuoteId$</p>
+                                                            </td>
+                                                            <td style="padding-left: 15px; padding-right: 15px; margin-right: 0px;" nowrap="">
+                                                                <p style="margin: 0px  0px  5px; color: #516d88; font-size: 12px;" class="inv_headers">
+                                                                    COMPANY NAME</p>
+                                                                <p style="margin: 0px; color: #434343; font-size: 18px;" class="inv_val">
+                                                                    $CompanyName$</p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table style="width: 115px; color: #333333; float: right;" class="buttonwrapper"
+                                                    border="0" cellspacing="0" cellpadding="0" align="center">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="middle">
+                                                            </td>
+                                                            <td style="background-color: #355dbe;" height="45" width="125" align="middle">
+                                                                <a rel="nofollow" style="text-align: center; line-height: 16px; background-color: #355dbe;
+                                                                    display: inline-block; letter-spacing: 0px; height: 15px; color: #fff; font-size: 16px;
+                                                                    vertical-align: bottom;" class="buttonwrapper" href="$Url$"
+                                                                    target="_blank">View quote</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 50px; padding-left: 25px; padding-right: 25px; font-family: helveticaneueroman, helvetica, arial, verdana, sans-serif;
+                                color: #000000; font-size: 12px; padding-top: 20px;">
+                                <p>
+                                    Hello $CustomerName$,<br />
+                                    <br />
+                                    Click the link above to view your Track Your Truck Vehicle Tracking Quote.<br />
+                                    Thank you for your interest - we appreciate it very much.<br />
+                                    <br />
+                                    Sincerely,<br />
+                                    Track Your Truck, Team</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="color: #000000;" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td style="padding-bottom: 10px; padding-left: 0px; padding-right: 0px; padding-top: 10px;"
+                                align="left">
+                                <div style="float: left">
+                                    <a title="Facebook" id="facebook" class="social" href="https://www.facebook.com/pages/Track-Your-Truck-Inc/143541702345623" target="_blank"><img alt="Facebook" src="https://secure.trackyourtruck.com/TYTQuote/Content/Images/footer-fb.png" /></a>
+                                    <a title="Twitter" id="twitter" class="social" href="https://twitter.com/TrackYourTruck" target="_blank"><img alt="Twitter" src="https://secure.trackyourtruck.com/TYTQuote/Content/Images/footer-twitter.png" /></a>
+                                </div>
+                            </td>
+                            <td style="padding-bottom: 10px; padding-left: 0px; padding-right: 0px; color: #888888;
+                                font-size: 10px; padding-top: 10px;" align="right">
+                                <p style="margin-bottom: 0px;">
+                                    Copyright $CopyrightYear$ Track Your Truck.&nbsp; <a rel="nofollow" style="color: #365ebf; text-decoration: none;"
+                                        href="//www.trackyourtruck.com/privacy-policy" target="_blank">Privacy</a>
+                                    | <a rel="nofollow" style="color: #365ebf; text-decoration: none;" href="//www.trackyourtruck.com/terms-use"
+                                        target="_blank">Terms of Use</a></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="color: #888888; font-size: 12px;">
+                                This quote from Track Your Truck, Inc. is valid for the specified days stated on the quote form.  Track Your Truck, Inc. accepts no liability for the content of this email. This quote is for commercial purposes only and is not a binding contract.  Track Your Truck, Inc. reserves the right to correct any and all mistakes that may have been inadvertently represented herein. You are receiving this email because you are on our mailing list. If you do not
+                                wish to receive information via email, please click here to <a href="$UnsubscribeUrl$">
+                                    Unsubscribe</a>.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+    </body>
+</html>
+</script>

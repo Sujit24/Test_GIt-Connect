@@ -1,0 +1,958 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+}
+<script src="@Url.Content("~/scripts/libs/bootstrap/bootstrap-transition.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/libs/bootstrap/bootstrap-modal.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/Quote/Index.js")?@version" type="text/javascript"></script>
+<style type="text/css">
+    #zuhu-modal-wrapper .k-grid
+    {
+        /*border-color: #9cb4c9;
+        border-radius: 4px;
+        border-style: solid;
+        border-width: 2px 2px medium;*/
+    }
+    #zuhu-modal-wrapper .k-header
+    {
+        border-style: solid;
+        border-width: 0 0 1px 1px;
+        overflow: hidden;
+        padding: 0.5em 0.6em 0.4em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    #zuhu-modal-wrapper .k-header .k-link
+    {
+        display: block;
+        line-height: 18px;
+        margin: -0.5em -0.6em -0.4em;
+        min-height: 18px;
+        padding: 0.5em 0.6em 0.4em;
+    }
+    #zuhu-modal-wrapper .modal
+    {
+        left: 50%;
+        margin: -250px 0 0 -285px;
+        width: 570px;
+    }
+    #zuhu-modal-wrapper .k-grid table tr:hover
+    {
+        background-image: none, linear-gradient(to bottom, #fff 0px, #efefef 100%);
+        cursor: pointer;
+        box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.6) inset, 0 0 2px rgba(0, 0, 0, 0.3);
+        border-color: #ccc;
+        color: #676767;
+    }
+    #zuhu-modal-wrapper #zuhu-modal-overlay
+    {
+        background-color: #dcdcdc;
+        display: none;
+        height: 100%;
+        opacity: 0.75;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        left: 0;
+    }
+    #zuhu-modal-wrapper #zuhu-modal-overlay img
+    {
+        background-color: #888;
+        border-radius: 3px;
+        left: 50%;
+        margin: -24px;
+        position: absolute;
+        top: 50%;
+    }
+    #zuhu-modal-wrapper .modal-body
+    {
+        position: relative;
+    }
+    #dvAccountList-wrapper, #dvContactList-wrapper
+    {
+        display: none;
+    }
+    
+    .totalTable
+    {
+        border-collapse: collapse;
+        font-family: "Trebuchet MS" ,Arial,Helvetica,sans-serif;
+        width: 100%;
+    }
+    .productTable
+    {
+        border-collapse: collapse;
+        font-family: "Trebuchet MS" ,Arial,Helvetica,sans-serif;
+        width: 100%;
+        font-size: 10px;
+    }
+    .productTable td, .productTable th
+    {
+        /*border: 1px solid cadetblue;*/
+        font-size: 1.2em; /*padding: 10px 7px 2px;*/
+        padding-left: 7px;
+        vertical-align: top;
+    }
+    .productTable th
+    {
+        /*background-color: steelblue;
+        color: #fff;*/
+        font-size: 1.4em;
+        padding-bottom: 6px;
+        padding-top: 5px;
+        text-align: left;
+        padding-left: 5px;
+        text-decoration: underline;
+    }
+    .productTable tr.alt td
+    {
+        background-color: #eaf2d3;
+        color: #000;
+    }
+</style>
+<script type="text/javascript">
+    var employeeId = "@(TSS.Helper.SessionVars.CurrentLoggedInUser == null ? 0 : TSS.Helper.SessionVars.CurrentLoggedInUser.EmployeeId)";
+</script>
+<div class="content-inner">
+    <div class="container-fluid">
+        <div class="contentHolder">
+            <div class="row-fluid">
+                <div class="span12">
+                    <br>
+                    <h2>
+                        Quote</h2>
+                    <hr style="border-color: yellowgreen;">
+                    <div class="contentHolder">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <div style="width: 72.5%">
+                                    <a id="aSaveToDB" style="float: right;" role="button" class="btn btn-primary" onclick="Save();">
+                                        Save Quote</a>
+                                </div>
+                                <div>
+                                    <table style="width: 90%;">
+                                        <tr>
+                                            <td>
+                                                Quote Template:
+                                            </td>
+                                            <td colspan="3">
+                                                <div class="QuoteTemplateDDL-wrapper">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Quote Number:
+                                            </td>
+                                            <td>
+                                                <input type="hidden" id="quoteId" value="@ViewBag.QuoteId"/>
+                                                <span id="quoteNumber"></span>
+                                            </td>
+                                            <td>
+                                                Contract Term:
+                                            </td>
+                                            <td>
+                                                <select id="contractTerm" style="width: 100px">
+                                                    <option value="1">Monthly</option>
+                                                    <option value="6">6 Months</option>
+                                                    <option value="12" selected>12 Months</option>
+                                                    <option value="24">24 Months</option>
+                                                    <option value="36">36 Months</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Quote Date:
+                                            </td>
+                                            <td>
+                                                <label id="quoteDate">@DateTime.Now.ToString("MM/dd/yyyy")</label>
+                                            </td>
+                                            <td>
+                                                Valid Until:
+                                            </td>
+                                            <td>
+                                                <select id="validUntil" style="width: 100px">
+                                                    <option value="30">30 Days</option>
+                                                    <option value="60">60 Days</option>
+                                                    <option value="90">90 Days</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>Sales Person:</b>
+                                            </td>
+                                            <td>
+                                                <select id="salesPerson" style="width: 250px">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <b>Sales Person Email:</b>
+                                            </td>
+                                            <td>
+                                                <span id="salesPersonEmail"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                            </td>
+                                            <td>
+                                                <b>Sales Person Phone:</b>
+                                            </td>
+                                            <td>
+                                                <span id="salesPersonCell"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td colspan="3">
+                                                <a href="#Zuhu-Modal" role="button" class="btn btn-info" data-toggle="modal">Zoho LookUp</a>
+                                                <input id="ZohoEntityId" type="hidden" />
+                                                <input id="ZohoEntityType" type="hidden" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>NetTrack Client:</b>
+                                            </td>
+                                            <td colspan="3">
+                                                <input id="nettrackClient" type="text" style="width: 200px" /><input id="nettrackClientId"
+                                                    type="hidden" />
+                                                <a href="#NetTrackClient-Modal" role="button" class="btn btn-info" data-toggle="modal"
+                                                    style="margin-top: -10px">Add-on</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Same as Bill to
+                                                <input id="sameAsBillTo" type="checkbox" />
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>Bill to Info</b>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <b>Ship to Info</b>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 10%">
+                                                Company Name:
+                                            </td>
+                                            <td>
+                                                <input id="billCompanyName" type="text" style="width: 200px" tabindex="0" />
+                                            </td>
+                                            <td style="width: 10%">
+                                                Company Name:
+                                            </td>
+                                            <td>
+                                                <input id="shipCompanyName" type="text" style="width: 200px" tabindex="1" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Country:
+                                            </td>
+                                            <td>
+                                                <select id="billCountry" tabindex="0" style="width: 210px">
+                                                    <option value="CA">Canada</option>
+                                                    <option selected="selected" value="US">United States</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                Country:
+                                            </td>
+                                            <td>
+                                                <select id="shipCountry" tabindex="1" style="width: 210px">
+                                                    <option value="CA">Canada</option>
+                                                    <option selected="selected" value="US">United States</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Address 1:
+                                            </td>
+                                            <td>
+                                                <input id="billAddress1" type="text" style="width: 250px" tabindex="0" />
+                                            </td>
+                                            <td>
+                                                Address 1:
+                                            </td>
+                                            <td>
+                                                <input id="shipAddress1" type="text" style="width: 250px" tabindex="1" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Address 2:
+                                            </td>
+                                            <td>
+                                                <input id="billAddress2" type="text" style="width: 250px" tabindex="0" />
+                                            </td>
+                                            <td>
+                                                Address 2:
+                                            </td>
+                                            <td>
+                                                <input id="shipAddress2" type="text" style="width: 250px" tabindex="1" />
+                                            </td>
+                                        </tr>
+                                        <tr style="display: none">
+                                            <td>
+                                                City, State, Zip:
+                                            </td>
+                                            <td>
+                                                <input id="billCityStateZip" type="text" style="width: 200px" tabindex="0" />
+                                                (Ex: City, State, Zip)
+                                            </td>
+                                            <td>
+                                                City, State, Zip:
+                                            </td>
+                                            <td>
+                                                <input id="shipCityStateZip" type="text" style="width: 200px" tabindex="1" />
+                                                (Ex: City, State, Zip)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                City:
+                                            </td>
+                                            <td>
+                                                <input id="billCity" type="text" style="width: 200px" tabindex="0" />
+                                            </td>
+                                            <td>
+                                                City:
+                                            </td>
+                                            <td>
+                                                <input id="shipCity" type="text" style="width: 200px" tabindex="1" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                State:
+                                            </td>
+                                            <td>
+                                                <select id="billState" tabindex="0" style="width: 210px">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                State:
+                                            </td>
+                                            <td>
+                                                <select id="shipState" tabindex="1" style="width: 210px">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Zip:
+                                            </td>
+                                            <td>
+                                                <input id="billZip" type="text" style="width: 200px" tabindex="0" />
+                                            </td>
+                                            <td>
+                                                Zip:
+                                            </td>
+                                            <td>
+                                                <input id="shipZip" type="text" style="width: 200px" tabindex="1" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Billing Contact:
+                                            </td>
+                                            <td>
+                                                <input id="billContact" type="text" style="width: 200px" tabindex="0" />
+                                            </td>
+                                            <td>
+                                                Ship to Contact:
+                                            </td>
+                                            <td>
+                                                <input id="shipContact" type="text" style="width: 200px" tabindex="1" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Billing Email:
+                                            </td>
+                                            <td>
+                                                <input id="billEmail" type="text" style="width: 200px" tabindex="0" />
+                                            </td>
+                                            <td>
+                                                Ship to Email:
+                                            </td>
+                                            <td>
+                                                <input id="shipEmail" type="text" style="width: 200px" tabindex="1" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Phone#:
+                                            </td>
+                                            <td>
+                                                <input id="billPhone" type="text" tabindex="0" />
+                                            </td>
+                                            <td>
+                                                Phone#:
+                                            </td>
+                                            <td>
+                                                <input id="shipPhone" type="text" tabindex="1" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 69%;">
+                        <a id="adisableQuantityRestriction" href="#" style="float: right">Disable Qty Sync</a>
+                    </div>
+                    <br />
+                    <div id="productContainer">
+                        <div id="productContent">
+                            <script type="text/x-kendo-template" id="productTemplate">
+                                <div class="Package" style="width: 69%; border: 1px solid gainsboro;">
+                                    <div style="margin-left: 5px; margin-right: 5px">
+                                        <h2 style="background-color: rgb(238, 238, 238); margin: 0px -5px; padding: 0px 5px;" class="PackageId" data-deleted="0" data-maxproductqty="1" data-packageid="#: ProductIndex #">
+                                            <span class="package-title">Product #: PackageTitleIndex #</span><span style="float:right"><a href="" class="remove-package">x</a></span></h2>
+                                        <div class="product" product-index="#: ProductIndex + 1 #">
+                                            <hr style="margin-top: 0px; margin-bottom: 0px">
+                                            <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                Hardware</h1>
+                                            <div style="text-align: right">
+                                                <a href="" role="button" class="product-action" product-type="hardware">Add Hardware</a> 
+                                                | <a href="" role="button" class="product-action" product-type="discount">Add Discount</a>
+                                            </div>
+                                            <div style="margin-bottom: 10px; margin-top: 0px">
+                                                <table class="productTable" Product-Category="Hardware">
+                                                    <tr>
+                                                        <th style="width: 86px; text-decoration: none; font-weight: normal; text-align: left;">
+                                                            Hardware
+                                                        </th>
+                                                        <th style="width: 80px; text-align: center;">
+                                                            Quantity
+                                                        </th>
+                                                        <th style="width: 100px">
+                                                            SKU
+                                                        </th>
+                                                        <th>
+                                                            Hardware Description
+                                                        </th>
+                                                        <th style="width: 100px; text-align:right;">
+                                                            <span style="padding-right:20px">Price</span>
+                                                        </th>
+                                                        <th style="width: 125px">
+                                                            Extended Price
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                                <table class="totalTable">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                        </th>
+                                                        <th style="width: 150px">
+                                                        </th>
+                                                        <th style="text-align: right;">
+                                                            Total Hardware:
+                                                        </th>
+                                                        <th style="width: 100px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 24px; text-align: right;">
+                                                            <span class="unit-product-total">$0.00</span>
+                                                        </th>
+                                                        <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                            <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="product" product-index="#: ProductIndex + 2 #">
+                                            <hr style="margin-top: 0px; margin-bottom: 0px">
+                                            <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                Monthly</h1>
+                                            <div style="text-align: right">
+                                                <a href="" role="button" class="product-action" product-type="monthly">Add Monthly</a> 
+                                                | <a href="" role="button" class="product-action" product-type="discount">Add Discount</a>
+                                            </div>
+                                            <div style="margin-bottom: 10px; margin-top: 0px">
+                                                <table class="productTable" Product-Category="Monthly">
+                                                    <tr>
+                                                        <th style="width: 86px; text-decoration: none; font-weight: normal; text-align: left;">
+                                                            Monthly
+                                                        </th>
+                                                        <th style="width: 80px; text-align: center;">
+                                                            Quantity
+                                                        </th>
+                                                        <th style="width: 100px">
+                                                            SKU
+                                                        </th>
+                                                        <th>
+                                                            Monthly Description
+                                                        </th>
+                                                        <th style="width: 100px; text-align:right;">
+                                                            <span style="padding-right:20px">Price</span>
+                                                        </th>
+                                                        <th style="width: 125px">
+                                                            Extended Price
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                                <table class="totalTable">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                        </th>
+                                                        <th style="width: 150px">
+                                                        </th>
+                                                        <th style="text-align: right;">
+                                                            Total Monthly:
+                                                        </th>
+                                                        <th style="width: 100px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 24px; text-align: right;">
+                                                            <span class="unit-product-total">$0.00</span>
+                                                        </th>
+                                                        <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                            <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="product" product-index="#: ProductIndex + 3 #">
+                                            <hr style="margin-top: 0px; margin-bottom: 0px">
+                                            <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                Optional</h1>
+                                            <div style="text-align: right">
+                                                <a href="" role="button" class="product-action" product-type="service">Add Optional</a>
+                                                | <a href="" role="button" class="product-action" product-type="discount">Add Discount</a>
+                                            </div>
+                                            <div style="margin-bottom: 10px; margin-top: 0px">
+                                                <table class="productTable" Product-Category="Optional">
+                                                    <tr>
+                                                        <th style="width: 86px; text-decoration: none; font-weight: normal; text-align: left;">
+                                                            Optional
+                                                        </th>
+                                                        <th style="width: 80px; text-align: center;">
+                                                            Quantity
+                                                        </th>
+                                                        <th style="width: 100px">
+                                                            SKU
+                                                        </th>
+                                                        <th>
+                                                            Optional Description
+                                                        </th>
+                                                        <th style="width: 100px; text-align:right;">
+                                                            <span style="padding-right:20px">Price</span>
+                                                        </th>
+                                                        <th style="width: 125px">
+                                                            Extended Price
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                                <table class="totalTable">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                        </th>
+                                                        <th style="width: 150px">
+                                                        </th>
+                                                        <th style="text-align: right;">
+                                                            Total Optional:
+                                                        </th>
+                                                        <th style="width: 100px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 24px; text-align: right;">
+                                                            <span class="unit-product-total">$0.00</span>
+                                                        </th>
+                                                        <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                            <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="product" product-index="#: ProductIndex + 4 #">
+                                            <hr style="margin-top: 0px; margin-bottom: 0px">
+                                            <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                Misc Fee</h1>
+                                            <div style="text-align: right">
+                                                <a href="" role="button" class="product-action" product-type="misc fee">Add Misc Fee</a>
+                                                | <a href="" role="button" class="product-action" product-type="discount">Add Discount</a>
+                                            </div>
+                                            <div style="margin-bottom: 10px; margin-top: 0px">
+                                                <table class="productTable" Product-Category="Misc Fee">
+                                                    <tr>
+                                                        <th style="width: 86px; text-decoration: none; font-weight: normal; text-align: left;">
+                                                            Misc Fee
+                                                        </th>
+                                                        <th style="width: 80px; text-align: center;">
+                                                            Quantity
+                                                        </th>
+                                                        <th style="width: 100px">
+                                                            SKU
+                                                        </th>
+                                                        <th>
+                                                            Misc Fee Description
+                                                        </th>
+                                                        <th style="width: 100px; text-align:right;">
+                                                            <span style="padding-right:20px">Price</span>
+                                                        </th>
+                                                        <th style="width: 125px">
+                                                            Extended Price
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                                <table class="totalTable">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                        </th>
+                                                        <th style="width: 150px">
+                                                        </th>
+                                                        <th style="text-align: right;">
+                                                            Total Misc Fee:
+                                                        </th>
+                                                        <th style="width: 100px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 24px; text-align: right;">
+                                                            <span class="unit-product-total">$0.00</span>
+                                                        </th>
+                                                        <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                            <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div style="display:none">
+                                            <hr style="margin-bottom: -10px; margin-top: 0px;" />
+                                            <div style='line-height: 0px'>&nbsp;</div>
+                                            <table style="width: 100%">
+                                                <tr>
+                                                    <td style="width: 80px; text-align: center;">
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td style="width: 120px; text-align: right; padding-right: 30px;">
+                                                        <b>Product Total Price:</b>
+                                                    </td>
+                                                    <td style="width: 125px; text-align: right;">
+                                                        <b><span style="padding-right: 40px" class="product-summary">$0.00</span></b>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                            </script>
+                        </div>
+                        <br />
+                        <div style="width: 69%">
+                            <a id="aAddMoreProduct" style="float: right;" role="button" class="btn btn-info">Add
+                                More Product</a>
+                        </div>
+                        <div>
+                            <div id="optionalService">
+                            </div>
+                        </div>
+                        <br />
+                        &nbsp;
+                        <div style="width: 69%">
+                            <hr />
+                            <br />
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 80px; text-align: center;">
+                                    </td>
+                                    <td style="width: 150px">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td colspan="2" style="width: 242px; text-align: right; padding-right: 30px;">
+                                        <b style="font-size: large; color: darkblue">Choose your service:</b> &nbsp;<input
+                                            name="SH" value="Ground" checked="checked" type="radio">
+                                        <span id="shGround" title="1-5 Business Days" style="font-size: large; color: darkblue;
+                                            vertical-align: sub">Ground,</span> &nbsp;<input name="SH" value="2Day" type="radio">
+                                        <span id="shSecondAir" title="2 Business Days" style="font-size: large; color: darkblue;
+                                            vertical-align: sub">2nd Air,</span> &nbsp;<input name="SH" value="NextAir" type="radio">
+                                        <span id="shNextAir" title="Next Business Day" style="font-size: large; color: darkblue;
+                                            vertical-align: sub">Next Air</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 80px; text-align: center;">
+                                    </td>
+                                    <td style="width: 150px">
+                                    </td>
+                                    <td colspan="2" style="text-align: right; padding-right: 30px; vertical-align: super;">
+                                        <b>Total Shipping and Handling:</b>
+                                    </td>
+                                    <td style="width: 125px; text-align: right;">
+                                        $<span id="shippingAndHandling" style="padding-right: 40px;">0.0</span> @*<input id="shippingAndHandling" type="text" style="width: 50px" value="0.00">*@
+                                    </td>
+                                </tr>
+                                <tr style="display: none">
+                                    <td style="width: 80px; text-align: center;">
+                                    </td>
+                                    <td style="width: 150px">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td style="width: 100px; text-align: right; padding-right: 30px;">
+                                        <b>Summary:</b>
+                                    </td>
+                                    <td style="width: 125px; text-align: left;">
+                                        $&nbsp;&nbsp; <b><span class="product-summary">0.00</span></b>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div>
+                                <div>
+                                    <b style="text-decoration: underline;">Summary:</b>
+                                </div>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            Total Hardware Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalHardwareFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Sales Tax Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalSalesTaxFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Monthly Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalMonthlyFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Optional Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalOptionalFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Misc Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalMiscFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Shipping and Handling:&nbsp;&nbsp;
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalShippingAndHandlingFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br />
+                            <b style="color: Red">* This order will include Hardware, Sales Tax, Misc Fees; Shipping
+                                and Handling. Total to be charged today: $<span style="color: Red" id="totalCharged">0.00</span>.</b>
+                        </div>
+                        <br />
+                        &nbsp;
+                    </div>
+                    <div style="display: none">
+                        <h2>
+                            Products</h2>
+                        <span><a id="aAddNew" style="float: right; margin-top: -32px;" role="button" class="btn btn-primary">
+                            Add New</a></span>
+                        <div>
+                            <div id="divKendoGridAddedProducts">
+                            </div>
+                            <br />
+                            &nbsp;
+                        </div>
+                        <h2>
+                            Optional Services</h2>
+                        <div>
+                            <div id="divKendoGridAddedOptionalServices">
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    &nbsp;
+                    <br />
+                    &nbsp;
+                    <br />
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="Zuhu-Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×</button>
+            <h3 id="myModalLabel">
+                Zoho LookUp</h3>
+        </div>
+        <div class="modal-body">
+            <div id="zuhu-search-panel">
+                <form class="form-search">
+                <select id="zohoLinkType" class="input-medium">
+                    <option value="Lead">Lead</option>
+                    @*<option value="Contact">Contact</option>*@
+                    <option value="Account">Account</option>
+                </select>
+                <input placeholder="Company Name" id="Search-Zuhu-pattern" type="text" class="input-medium search-query">
+                <button id="Search-Zuhu-btn" type="button" class="btn">
+                    Search</button>
+                &nbsp; &nbsp;
+                </form>
+            </div>
+            <div id="modal-wrapper">
+                <div id="dvAccountList-wrapper">
+                    <b>Please select an account</b>
+                    <br />
+                    <div class="k-grid k-widget">
+                        <div id="dvAccountList" class="k-grid-content" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div id="dvContactList-wrapper">
+                    <br />
+                    <b>Please select a contact</b>
+                    <br />
+                    <div class="k-grid k-widget">
+                        <div id="dvContactList" class="k-grid-content" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="zuhu-modal-overlay">
+                <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                Close</button>
+            <button class="btn btn-primary" id="btnSaveZoho" onclick="SaveZoho();">
+                Select</button>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="Product-Modal" style="width: 670px; margin: -250px 0 0 -385px;" class="modal hide fade"
+        tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×</button>
+            <h3 id="myModalLabel">
+                Product List</h3>
+        </div>
+        <div class="modal-body">
+            <div id="zuhu-search-panel">
+                <form class="form-search">
+                <div id="divKendoGridProductList">
+                </div>
+                </form>
+            </div>
+            <div id="modal-wrapper">
+                <div id="dvAccountList-wrapper">
+                    <b>Please select an account</b>
+                    <br />
+                    <div class="k-grid k-widget">
+                        <div id="dvAccountList" class="k-grid-content" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="zuhu-modal-overlay">
+                <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                Close</button>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="NetTrackClient-Modal" style="width: 670px; margin: -250px 0 0 -385px;" class="modal hide fade"
+        tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×</button>
+            <h3 id="myModalLabel">
+                NetTrack Client List</h3>
+        </div>
+        <div class="modal-body">
+            <div id="zuhu-search-panel">
+                <form class="form-search">
+                <b>NetTrack Client Name:</b>
+                <input type="text" id="Search-NetTrackClient-Text" />
+                <button id="Search-NetTrackClient-btn" type="button" class="btn">
+                    Search</button>
+                &nbsp; &nbsp;
+                </form>
+            </div>
+            <div id="zuhu-search-panel">
+                <form class="form-search">
+                <div class="k-grid k-widget">
+                    <div id="divNetTrackClientList" class="k-grid-content" style="width: 100%">
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div id="zuhu-modal-overlay">
+                <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                Close</button>
+            <button class="btn btn-primary" id="btnSelectClient" onclick="SelectClient();" disabled="disabled">
+                Select</button>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>

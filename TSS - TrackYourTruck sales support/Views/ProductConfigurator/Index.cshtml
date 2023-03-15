@@ -1,0 +1,54 @@
+﻿@using System.Configuration
+@model TSS.Models.Login
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "TSS - TrackYourTruck sales support";
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+}
+<script src="@Url.Content("~/Scripts/ProductConfigurator/Index.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.min.js")?@version" type="text/javascript"></script>
+<div class="content-inner">
+    <div class="container-fluid">
+        <div class="contentHolder">
+            <div class="row-fluid">
+                <div class="span12">
+                    <br>
+                    <h2>
+                        Product List</h2>
+                    <hr style="border-color: yellowgreen;">
+                    <div class="contentHolder">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <span>
+                                    <label>
+                                        Search:
+                                    </label>
+                                    <select id="searchSelect" style="width: 150px">
+                                        <option value="SKU">SKU</option>
+                                        <option value="ProductName">Product Name</option>
+                                        <option value="ProductTypeName">Product Type</option>
+                                    </select>
+                                    <input id="searchText" type="text" style="width: 200px" />
+                                    <a id="search" role="button" class="btn btn-info" style="margin-top: -10px">Search</a>&nbsp;<a
+                                        id="resetSearch" role="button" class="btn btn-warning" style="margin-top: -10px">
+                                        Clear</a> <a onclick="removeFromGrid();" class="btn btn-danger" role="button" style="margin-top: -10px">
+                                            Delete Selected</a></span><span style="margin-left: 20px"><a style="margin-top: -10px" role="button" class="btn btn-primary"
+                                                onclick="LoadDetailView(0);">Add New</a> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px">
+                    </div>
+                    <div>
+                        <div id="divKendoGrid">
+                        </div>
+                        <div id="pager">
+                        </div>
+                    </div>
+                    <div id="detail-container">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

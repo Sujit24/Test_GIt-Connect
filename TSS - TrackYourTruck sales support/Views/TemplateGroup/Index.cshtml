@@ -1,0 +1,51 @@
+﻿@{
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+    ViewBag.Title = "TSS - TrackYourTruck sales support";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/TemplateGroup/Index.js")?@version" type="text/javascript"></script>
+<style type="text/css">
+    .active, .top-nav ul li a:active, .top-nav ul li a:hover {
+        background-color: none !important;
+    }
+</style>
+<div class="content-inner">
+    <div class="container-fluid">
+        <div class="contentHolder">
+            <div class="row-fluid">
+                <div class="span12">
+                    <br>
+                    <h2>
+                        Template Group
+                    </h2>
+                    <hr style="border-color: yellowgreen;">
+                    <div class="contentHolder">
+                        <div class="row-fluid">
+                            <div class="span6">
+                                <div class="row-fluid">
+                                    <div class="span12">
+                                        <input type="hidden" id="txtTemplateGroupId" />
+                                        <span style="vertical-align: super; margin-right: 2px">Group Name: </span>&nbsp;
+                                        <input type="text" style="width: 380px" maxlength="200" id="txtName" value="" />
+                                        &nbsp;&nbsp;
+                                        <input type="button" id="btnAddGroup" style="vertical-align: top" class="btn btn-info"
+                                               value="Add" />
+                                        <input type="button" id="btnUpdateGroup" style="vertical-align: top" class="btn btn-info"
+                                               value="Update" />
+                                        <input type="button" class="btn btn-warning" style="vertical-align: top" id="btnCancelGroup" value="Cancel" />
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="span12">
+                                        <div id="divGroupGrid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

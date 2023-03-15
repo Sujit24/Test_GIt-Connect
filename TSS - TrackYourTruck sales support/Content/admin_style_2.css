@@ -1,0 +1,396 @@
+body
+{
+	background-color: #f5f2eb;
+	font-family: calibri, arial, helvetica, sans-serif;
+	margin: 5px;
+	padding: 0;
+}
+
+#divAdminGridPage 
+{ 
+	width: 100%;
+}
+
+#properties
+{
+	margin: 0px;
+	background-color: #fbfaf7;
+}
+
+a {
+	color: #2222aa;
+}
+
+.controlfont
+{
+    font-size: 8pt;
+}
+
+.settingsGroupHeaderBig
+{
+    font-size:12pt; 
+    font-weight:bold;    
+}
+
+.settingsGroupHeader
+{
+	font-size:9pt;
+	font-weight:bold;
+	margin-left:10px;
+	color: #2222aa;
+}
+
+.settingsGroupMargin
+{
+	margin-left: 25px;
+}
+
+.settingsGroupMarginWide
+{
+	margin-left: 5px;
+}
+#pageHeader 
+{
+	width: 100%;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #eedacf;
+	background: #fcf2e6 url(../Content/images/images/prop_header.gif) repeat-x;
+}
+
+
+.topbar12 
+ {
+	background: url(../Content/images/images/tab_t_1.gif) repeat-x;
+	
+}
+.topbar12 #lblGpsDetails
+{
+    font: bold 17px Arial, sans-serif;
+	color: #ffffff;
+    }
+.propertyPageHeader 
+{
+	padding-left:25px; 
+    font: bold 14px calibri,Verdana, Tahoma, Sans-Serif;
+	color: #d16e10;
+	padding: 0 0 0 1px;
+}
+
+#lblMode 
+{ 
+	font: bold 11px calibri,Verdana, Tahoma, Sans-Serif;
+	color: #848484;	
+	
+}
+
+
+.inplaceedit {
+	width: 110px;
+	font-size: 8pt; 
+}
+.inplaceedit_Point {
+	width: 220px;
+	font-size: 8pt; 
+}
+.dropdown {
+	width: 118px;
+	font-size: 8pt; 
+	background-color: #fbfaf7;
+}
+.dropdown_Point {
+	width: 225px;
+	font-size: 8pt; 
+	background-color: #fbfaf7;
+}
+.fitdropdown {
+	font-size: 8pt; 
+	background-color: #fbfaf7;
+}
+
+.boldLabel
+{
+	font-weight:bold;
+}
+
+.inplaceedit_short
+{
+	font-size: 8pt;
+    width: 102px;
+}
+
+.menuLogo
+{
+	font-size: 10pt; 
+	color: #ce6500; 
+	margin: 0 0 5px 10px;
+}
+
+ #divOtherPgLinks
+ {
+    font-size: 10pt; 
+	color: #ce6500; 
+	font-weight:bold;
+    margin-top:5px;
+    margin-bottom:2px;
+    margin-left:10px;
+ }
+.gridBase
+{
+	font-size: 8pt;
+	width:100%;
+	border-collapse: collapse;
+}
+
+table#DataGrid1 td {
+	border-bottom: 1px solid #cccccc; 
+	white-space:nowrap;
+}
+
+table#DataGrid1 th {
+	border-bottom: 2px solid #dfa66f;
+	white-space: nowrap;
+}
+
+.gridHeaderRow
+{
+	background-color: #fff7ef;
+	font-weight:bold;
+	color: #ce6500;
+	text-align:center;
+}
+
+.gridHeaderRow a
+{
+	color:#ce6500;
+	text-decoration:underline;
+}
+
+.gridDataRow
+{
+	text-align:center;
+	color:#333333;
+}
+
+.gridRowOdd
+{
+    text-align:center;
+	color:#333333;
+	background-color:#ffffff;
+}
+.gridAlternatingRow, .gridRowEven
+{
+	text-align:center;
+	background-color: white;
+	color:#333333;
+}
+
+.gridEditRow
+{
+	text-align:center;
+	background-color:#999999;
+	text-align:center;
+}
+
+.gridSelectedRow
+{
+	background-color: #e7eaec;
+	font-weight:bold;
+	color:#333333;
+	text-align:center;
+}
+
+.gridPagerRow
+{
+	background-color: #fff7ef;
+	text-align:left;
+	font-size: 9pt; 
+	font-weight:bold;
+}
+
+.gridPagerRow a
+{
+	color:Orange;
+	text-decoration:none;
+}
+.gridFooterRow
+{
+	text-align:center;
+	background-color: #458ac3;
+	font-weight:bold;
+	color: white; 
+}
+
+
+.changedControl
+{
+	color: Orange;
+}
+
+/*#twLinks,*/
+#twAdminMenu {
+	margin-left: 10px;
+}
+#twAdminMenu a:active,
+#twTruckReports a.active,
+#twLinks  a:active  {
+	color: #ce6500;
+}
+
+.twAdminMenu_2 {
+	background: url(../Content/images/images/bullet1.gif) no-repeat left center;
+	padding: 0 0 0 10px;
+	font-size: 12px;
+}
+
+
+.twAdminMenu_check,
+.twAdminMenu_2 a {
+	color: #555555;
+	font-weight: bold;
+}
+.twLinks_check
+{color: #000000;
+	font-weight: bold;
+	text-decoration:underline;
+    }
+#mtb_tab_head { width:100%; }
+#mtb_tab { width:100%; }
+#mtb_lt {
+	background: url(../Content/images/images/tab_lt_1.gif) no-repeat;
+	width: 7px;
+	height: 27px;
+}
+#mtb_t {
+	background: url(../Content/images/images/tab_t_1.gif) repeat-x;
+	font: bold 17px Arial, sans-serif;
+	color: #ffffff;
+}
+#mtb_rt {
+	background: url(../Content/images/images/tab_rt_1.gif) no-repeat;
+	width: 11px;
+}
+#mtb_l {
+	border-left: 1px solid #d9d6d0;
+	background: #ffffff;
+}
+#mtb {
+	background: #ffffff;
+	padding: 10px;
+}
+#mtb_r {
+	background: #ffffff url(../Content/images/images/tab_r_1.gif) repeat-y right;
+	width: 11px;
+}
+#mtb_lb {
+	background: url(../Content/images/images/tab_lb_1.gif) no-repeat;
+}
+#mtb_b {
+	background: url(../Content/images/images/tab_b_1.gif) repeat-x;
+	height: 12px;
+}
+#mtb_rb {
+	background: url(../Content/images/images/tab_rb_1.gif) no-repeat right top;
+}
+
+#menuLogoImg {
+	width: 153px;
+	height: 37px;
+	background: url(../Content/images/images/logo.gif) no-repeat;
+	display: block;
+}
+
+/* other mapped styles */
+
+.usrSmallLabel /*settingsGroupHeader*/
+{
+   font-size :9pt;
+  font-weight :bold;
+	margin-left:10px;
+	color: #2222aa;
+
+}
+
+.classColorSelect /*dropdown */
+{    
+	/*width: 118px;*/
+	font-size: 8pt; 
+	background-color: #fbfaf7;	
+	color:Black; /*compensate*/
+}
+
+
+.mapbody /*body*/
+{
+	background-color: #f5f2eb !important;
+	font-family: arial, helvetica, sans-serif;
+	margin: 5px;
+	padding: 0;
+}
+
+
+.classDivChecks_Google, .classDivStatus_Google, .classDivReplayDetail ,
+.classDivReplayDetailInner, .classOptReplay , .modalPopup, .adminCheckList,
+.classOptTruckCurReplay, .classDivReplayDetailInner_google
+{
+	background-color: #f5f2eb; /*same as body*/
+}
+
+.classColorText {
+	width: 110px;
+	font-size: 8pt; /*inplaceedit*/
+	background-color: #f5f2eb;/* as classColorSelect*/	
+	color:Black; /*compensate*/
+
+}
+
+.classButtonImage
+{
+    BORDER-RIGHT: #f5f2eb 2px solid;
+    BORDER-TOP: #f5f2eb 2px solid;
+    BORDER-LEFT: #f5f2eb 2px solid;
+    BORDER-BOTTOM: #f5f2eb 2px solid;
+}
+
+.classButtonImageUp
+{
+    BORDER-RIGHT: #996600 2px solid;
+    BORDER-TOP: Black 2px solid;    
+    BORDER-LEFT: Black 2px solid;
+    BORDER-BOTTOM: #996600 2px solid;
+}
+
+.classButtonImagePressed
+{
+    BORDER-RIGHT: Black 2px solid;
+    BORDER-TOP: #996600 2px solid;
+    BORDER-LEFT: #996600 2px solid;
+    BORDER-BOTTOM: Black 2px solid;
+}
+
+.classOptReplay
+{
+    BACKGROUND-COLOR: Silver;
+}
+
+.ballooneditarea
+{
+	background-color:#f5f2eb; /*background - change in carinfo*/
+	width:180;
+	color:#0000FF;
+}
+
+TABLE.admintable
+{
+    BORDER-RIGHT: thin groove;
+    PADDING-RIGHT: 0px;
+    BORDER-TOP: thin groove;
+    PADDING-LEFT: 0px;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    BORDER-LEFT: thin groove;
+    WIDTH: 100%;
+    PADDING-TOP: 0px;
+    BORDER-BOTTOM: thin groove;
+    BACKGROUND-COLOR: transparent;
+    border-width: 1px
+}

@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>TSS - TrackYourTruck sales support</title>
+    @{
+        string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+    }
+    @*<link href="@Url.Content("~/Content/style-v2.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/style-v2.min.css")?@version" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/reset.css")?@version" rel="stylesheet" type="text/css"  />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")?@version" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")?@version" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/kendo.common.minNew.css")?@version" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/kendo.uniform.min.css")?@version" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/kendo/Kendo-GridOverwrite.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/kendo/Kendo-GridOverwrite.min.css")?@version" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/Admin_Style_1.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/Admin_Style_1.min.css")?@version" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/footer.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/footer.min.css")?@version" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/ModalPopupCustom.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/ModalPopupCustom.min.css")?@version" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/Libs/jquery/jquery-1.8.3.min.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Libs/jquery/jquery.helper.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/libs/bootstrap/bootstrap-dropdown.js")?@version" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Scripts/Libs/kendo/kendo.all.min.js")?@version" type="text/javascript"></script>*@
+    @*<script src="@Url.Content("~/Scripts/Libs/kendo/update/kendo.core.min.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Libs/kendo/update/kendo.data.min.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Libs/kendo/update/kendo.sortable.min.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Libs/kendo/update/kendo.grid.min.js")?@version" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/Libs/kendo/update/kendo.grid.minimal.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Common/Common.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Common/ListViewUtility.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/libs/Utility.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Common/SessionCheck.js")?@version" type="text/javascript"></script>
+    <style type="text/css">
+        div#loading
+        {
+            display: none;
+            font: 16px Tahoma,Geneva,sans-serif;
+            left: 50%;
+            margin-left: -30px;
+            margin-top: -50px;
+            overflow: auto;
+            padding: 10px;
+            position: fixed;
+            text-align: center;
+            top: 50%;
+            z-index: 10001;
+        }
+        .BackgroundStyle
+        {
+            background-color: #000000;
+            opacity: 0.7;
+        }
+    </style>
+    <script type="text/javascript">
+        var baseUrl = "@System.Configuration.ConfigurationManager.AppSettings["baseUrl"]";
+        var userViewUrl = "@System.Configuration.ConfigurationManager.AppSettings["UserViewUrl"]";
+
+        var firstUnit = @System.Configuration.ConfigurationManager.AppSettings["FirstUnit"];
+        var additionalUnit = @System.Configuration.ConfigurationManager.AppSettings["AdditionalUnit"];
+        var secondDayAir = @System.Configuration.ConfigurationManager.AppSettings["SecondDayAir"];
+        var nextDayAir = @System.Configuration.ConfigurationManager.AppSettings["NextDayAir"];
+
+        var shippingAndHandlingServiceFee = @System.Configuration.ConfigurationManager.AppSettings["ShippingAndHandlingServiceFee"];
+
+        var discount10ProductId = @System.Configuration.ConfigurationManager.AppSettings["Discount10ProductId"];
+        var discount15ProductId = @System.Configuration.ConfigurationManager.AppSettings["Discount15ProductId"];
+        var discount20ProductId = @System.Configuration.ConfigurationManager.AppSettings["Discount20ProductId"];
+
+        var ShortUrlKey = "@System.Configuration.ConfigurationManager.AppSettings["ShortUrlKey"]";
+    </script>
+</head>
+<body style="margin-bottom: 50px">
+    <div class="login-header">
+        <div style="height: 100%;">
+            <h1 style="padding-top: 5px; padding-left: 20px; color: white;">
+                <img style="height: 60px; margin-top: 7px;" alt="/" src="@Url.Content("~/Content/images/TYTlogo1.png")" >
+            </h1>
+            <div class="btn-group" style="float: right; margin-top: -29px; margin-right: 20px;">
+                <a class="btn btn-large" style="border-bottom-left-radius: 0px" href="@Url.Action("List", "Quote")">Quote</a>
+                <a class="btn btn-large" href="@Url.Action("List", "SalesOrder")">Sales Order</a>
+                <a data-toggle="dropdown" class="btn btn-large dropdown-toggle" style="border-bottom-right-radius: 0px; border-top-right-radius: 0px">
+                    Options <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" style="margin-left: 95px">
+                    @if (TSS.Helper.SessionVars.CurrentLoggedInUser != null && TSS.Helper.SessionVars.CurrentLoggedInUser.IsTSSAdmin)
+                    {
+                        <li><a href="@Url.Action("Index", "Settings")">Settings</a></li>
+                        <li><a href="@Url.Action("Index", "ProductConfigurator")">Product</a></li>
+                        <li><a href="@Url.Action("Index", "SalesTax")">Sales Tax</a></li>
+                        <li><a href="@Url.Action("Index", "SalesPerson")">Sales Person</a></li>
+                        <li><a href="@Url.Action("Index", "SecurityGroup")">Sales Person Group</a></li>
+                        <li><a href="@Url.Action("List", "QuoteTemplate")">Quote Template</a></li>
+                        <li><a href="@Url.Action("Index", "TemplateGroup")">Template Group</a></li>
+                    }
+                    <li><a href="@Url.Action("List", "EmailTemplate")">Email Template</a></li>
+                </ul>
+                <a class="btn btn-large" style="border-bottom-right-radius: 0px" href="@Url.Action("Logout", "Login")">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+    <div id="backgroundElement" style="display: none; position: fixed; left: 0px; top: 0px;
+        z-index: 10000; width: 100%; height: 100%;" class="BackgroundStyle">
+    </div>
+    <div id='loading' style="display: none;">
+        <img src="@Url.Content("~/Content/kendo/Default/loading-image.gif")" title="Loading" />
+        <div id="loadingInfoSH" style="display: none; position: fixed;">
+            <b style="color: white"></b>
+        </div>
+    </div>
+    <ul class="footer_fullwidth" id="footer">
+    </ul>
+</body>
+</html>

@@ -1,0 +1,50 @@
+﻿@using System.Configuration
+@{
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+    ViewBag.Title = "TSS - TrackYourTruck sales support";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/EmailTemplate/List.js")?@version" type="text/javascript"></script>
+<div class="content-inner">
+    <div class="container-fluid">
+        <div class="contentHolder">
+            <div class="row-fluid">
+                <div class="span12">
+                    <br />
+                    <h2>
+                        Email Template List</h2>
+                    <hr style="border-color: yellowgreen;" />
+                    <div class="contentHolder">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <span>
+                                    <label>
+                                        Search:
+                                    </label>
+                                    <select id="searchSelect" style="width: 150px">
+                                        <option value="Title">Template Name</option>
+                                    </select>
+                                    <input id="searchText" type="text" style="width: 200px" />
+                                    <a id="search" role="button" class="btn btn-info" style="margin-top: -10px">Search</a>&nbsp;<a
+                                        id="resetSearch" role="button" class="btn btn-warning" style="margin-top: -10px">
+                                        Clear</a>
+                                    @if (TSS.Helper.SessionVars.CurrentLoggedInUser != null && TSS.Helper.SessionVars.CurrentLoggedInUser.IsTSSAdmin)
+                                    {<a onclick="removeFromGrid();" class="btn btn-danger" role="button" style="margin-top: -10px">
+                                        Delete Selected</a>}</span><span style="margin-left: 20px"><a style="margin-top: -10px"
+                                            role="button" class="btn btn-primary" onclick="New();">Add New</a> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px">
+                    </div>
+                    <div>
+                        <div id="divKendoGrid">
+                        </div>
+                        <div id="pager">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E4B6A51F-96BF-4407-99DC-3407FD7AD9AC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NetTrackBiz</RootNamespace>
+    <AssemblyName>NetTrackBiz</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EmailTemplateBiz.cs" />
+    <Compile Include="IFacadeBiz.cs" />
+    <Compile Include="MyAccountBiz.cs" />
+    <Compile Include="BluePaySettingsBiz.cs" />
+    <Compile Include="BluePayTransBiz.cs" />
+    <Compile Include="ClientBiz.cs" />
+    <Compile Include="CommonBiz.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProductBiz.cs" />
+    <Compile Include="QuoteTemplateBiz.cs" />
+    <Compile Include="SalesTaxBiz.cs" />
+    <Compile Include="TemplateGroupBiz.cs" />
+    <Compile Include="SecurityGroupBiz.cs" />
+    <Compile Include="SecurityGroupSalesPersonBiz.cs" />
+    <Compile Include="StatusCodesBiz.cs" />
+    <Compile Include="TSSSettingsBiz.cs" />
+    <Compile Include="UserSessionBiz.cs" />
+    <Compile Include="UserStateBiz.cs" />
+    <Compile Include="TytFacadeBiz.cs" />
+    <Compile Include="UserBiz.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GSA.Security\GSA.Security.csproj">
+      <Project>{49B457BF-A1C0-46FD-A1AE-811C0F730B98}</Project>
+      <Name>GSA.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetTrackModel\NetTrackModel.csproj">
+      <Project>{A2949530-E37C-4494-B856-6D8C280353A7}</Project>
+      <Name>NetTrackModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetTrackRepository\NetTrackRepository.csproj">
+      <Project>{F7C06535-5866-46B7-9E4C-04A62A23FDAC}</Project>
+      <Name>NetTrackRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

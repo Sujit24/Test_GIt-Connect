@@ -1,0 +1,86 @@
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewBag.Title = "Email Unsubscribe";
+}
+<center>
+    <br />
+    <div style="color: red; font-size: xx-large">
+        @ViewBag.Message
+    </div>
+    @if (string.IsNullOrWhiteSpace(ViewBag.Message))
+    { 
+        <h2>
+            Email Unsubscribe</h2>
+        <br />
+        <br />
+        <div style="width: 300px;">
+            <div style="float: left">
+                Please enter your email to unsubscribe:</div>
+            <div>
+                <input placeholder="Email" id="email" type="text" style="border: 1px solid black;
+                    font-size: large; width: 100%" />
+            </div>
+        </div>
+        <br />
+        <br />
+        <input id="btnUnsubscribe" type="button" class="btn btn-primary" value="Unsubscribe" />
+    }
+</center>
+<script type="text/javascript">
+    if (!ListViewUtility) {
+        var ListViewUtility = {
+            _RunningEventsCount: 0,
+            ShowLoadingImage: function () {
+                this._RunningEventsCount++;
+                if (this._RunningEventsCount <= 1) {
+                    ShowLoadingImg();
+                }
+            },
+            CloseLoadingImage: function () {
+                this._RunningEventsCount--;
+                if (this._RunningEventsCount < 1) {
+                    CloseLoadingImg();
+                    this._RunningEventsCount = 0;
+                }
+            },
+            CloseUnhandledLoader: function () {
+                if (ListViewUtility._RunningEventsCount > 0) {
+                    window.setTimeout(function () {
+                        ListViewUtility._RunningEventsCount = 0;
+                        ListViewUtility.CloseLoadingImage();
+                    }, 200);
+                }
+            }
+        };
+    }
+
+
+    $(function () {
+        $("#btnUnsubscribe").click(function () {
+            if ($("#email").val() == '') {
+                alert('Please enter email');
+                $("#email").focus();
+
+                return;
+            }
+
+            ListViewUtility.ShowLoadingImage();
+            $.ajax({
+                url: baseUrl + "/Quote/EmailUnsubscribe",
+                type: "POST",
+                dataType: "json",
+                data: { id: $("#email").val() },
+                success: function (result) {
+                    ListViewUtility.CloseLoadingImage();
+
+                    if (result.Message == "Success") {
+                        alert("Your email successfully unsubscribed.");
+                    }
+                    else {
+                        alert("Unsubscribe failed. Please try again.");
+                    }
+                }
+            });
+        });
+    });
+</script>

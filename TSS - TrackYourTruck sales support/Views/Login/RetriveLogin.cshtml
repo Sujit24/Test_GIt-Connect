@@ -1,0 +1,122 @@
+﻿@using System.Configuration
+@model TSS.Models.Login
+@{
+    Layout = null;
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>GPS Vehicle Tracking Devices, GPS Vehicle Tracking Solutions</title>
+    <link href="@Url.Content("~/Content/style-v2.css")?@version" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/reset.css")?@version" rel="stylesheet" type="text/css"  />
+    <link href="@Url.Content("~/Content/footer.css")?@version" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")?@version" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/Libs/jquery/jquery-1.8.2.min.js")?@version" type="text/javascript" ></script>
+    <script src="@Url.Content("~/Scripts/RetriveLogin/RetriveLogin.js")?@version" type="text/javascript"></script>
+    <script type="text/javascript">
+        var baseUrl = "@ConfigurationManager.AppSettings["baseUrl"]";
+    </script>
+    <style type="text/css">
+        .validation-summary-errors ul
+        {
+            list-style-type: none;
+        }
+        .validation-summary-errors ul li
+        {
+            color: Red;
+        }
+        
+        .logonHeader
+        {
+            color: #FFFFFF;
+            font-family: Verdana;
+            font-size: 10pt;
+            font-weight: bold;
+        }
+        h1.page-title
+        {
+            color: #325F91;
+            font: 30px CalvertMTStdRegular,Rockwell,serif;
+            margin-bottom: 10px;
+        }
+        #retrieveLoginDiv div, span, p, input
+        {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-header">
+        <div id="loginLogo">
+            <a href="//www.trackyourtruck.com/" target="_blank">
+                <img src="@ConfigurationManager.AppSettings["baseUrl"]/Content/images/TYTlogo1.png" alt="/" /></a>
+        </div>
+    </div>
+    <!--Header-End-->
+    <div class="clear">
+    </div>
+    <!--Tabs-Box-Starts-->
+    <div class="tabs-contenor">
+        <h1 class="pad">
+            Retrieve Login Information</h1>
+        <div class="tabs_links">
+            <ul>
+                <li><a href="#map-settings">Retrieve Information</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--Tabs-Box-Ends-->
+    <!--Main Content-->
+    <div id="main">
+        <div id="content">
+            <!-- cmq ADDED INNER DIV -->
+            <div id="content-inner">
+                <div class="tab_content" id="map-settings">
+                    <div id="retrieveLoginDiv">
+                        <div style="margin: 5px;">
+                            <h1 class="page-title">
+                                Retrieve NetTrack Login Information</h1>
+                            @*<div style="background-color: #0065cc; padding: 5px 8px; width: 400px;">
+                                <span class="logonHeader">NetTrack</span>
+                            </div>*@
+                            <p style="text-align: left; margin-top: 3px; font-family: Calibri; font-size: 15px;">
+                                Please enter the email address you associated with your account.</p>
+                            <input type="text" class="input-text-Login" style="margin-top: 3px; text-align: left;
+                                width: 300px;" id="txtEmailAddr" name="txtEmailAddr" />&nbsp; <span style="color: Red;
+                                    display: none;" id="Required">*</span>
+                            <br />
+                            <input id="SendEmail" class="btn btn-success" type="button" value="Submit" style="margin-top: 3px;" /><br />
+                            <br />
+                            <span id="lblMessage" style="margin-top: 3px;"></span>
+                            <br />
+                            <!-- <a id="aBackToLogin" href="#" style="color: Blue; text-decoration: underline">Back to
+                                Login</a>-->
+                        </div>
+                    </div>
+                    <!--ELEMENT BOX ENDS-->
+                </div>
+            </div>
+            <!--END inner-content-->
+        </div>
+        <!--END id=CONTENT-->
+    </div>
+    <!--MAIN-END-->
+    <!-- BEGIN FOOTER -->
+    <ul id="footer" class="footer_fullwidth">
+        <li id="links">
+            <!-- Begin footer links section (right) -->
+            <ul>
+                <li style="display:none;"><a href="#">Help</a></li>
+                <li><a id="a_footer_Email" href="#">Email Us</a></li>
+                <li style="display:none;"><a href="#">Terms Of Use</a></li>
+            </ul>
+            <!-- End section  -->
+        </li>
+    </ul>
+    <!-- END FOOTER -->
+    <!-- Trigger Button -->
+    <a id="footer_trigger" class="trigger_active" href="#"></a>
+</body>
+</html>

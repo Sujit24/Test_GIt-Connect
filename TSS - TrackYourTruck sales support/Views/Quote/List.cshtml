@@ -1,0 +1,1688 @@
+﻿@using System.Configuration
+@{
+    ViewBag.Title = "TSS - TrackYourTruck sales support";
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/jquery/jquery-ui-1.8.css")?@version" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Scripts/libs/SCEditor/themes/modern.min.css")?@version" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/Pikaday/pikaday.css")?@version" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/scripts/libs/bootstrap/bootstrap-transition.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/libs/bootstrap/bootstrap-modal.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/libs/bootstrap/bootstrap-tooltip.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/libs/clipboard.min.js")?@version" type="text/javascript"></script>
+@*<script src="@Url.Content("~/scripts/libs/jquery/jquery-ui-1.9.2.js")?@version" type="text/javascript"></script>*@
+<script src="@Url.Content("~/scripts/libs/Pikaday/moment.min.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/libs/Pikaday/pikaday.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/libs/SCEditor/jquery.sceditor.bbcode.min.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.min.js")?@version" type="text/javascript"></script>
+<style type="text/css">
+    #zuhu-modal-wrapper .k-grid
+    {
+        /*border-color: #9cb4c9;
+        border-radius: 4px;
+        border-style: solid;
+        border-width: 2px 2px medium;*/
+    }
+    #zuhu-modal-wrapper .k-header
+    {
+        border-style: solid;
+        border-width: 0 0 1px 1px;
+        overflow: hidden;
+        padding: 0.5em 0.6em 0.4em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    #zuhu-modal-wrapper .k-header .k-link
+    {
+        display: block;
+        line-height: 18px;
+        margin: -0.5em -0.6em -0.4em;
+        min-height: 18px;
+        padding: 0.5em 0.6em 0.4em;
+    }
+    #zuhu-modal-wrapper .modal
+    {
+        left: 50%;
+        margin: -250px 0 0 -285px;
+        width: 570px;
+    }
+    #zuhu-modal-wrapper .modalCopy
+    {
+        left: 50%;
+        margin: -250px 0 0 -150px !important;
+        width: 300px !important;
+    }
+    #zuhu-modal-wrapper .k-grid table tr:hover
+    {
+        background-image: none, linear-gradient(to bottom, #fff 0px, #efefef 100%);
+        cursor: pointer;
+        box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.6) inset, 0 0 2px rgba(0, 0, 0, 0.3);
+        border-color: #ccc;
+        color: #676767;
+    }
+    #zuhu-modal-wrapper #zuhu-modal-overlay
+    {
+        background-color: #dcdcdc;
+        display: none;
+        height: 100%;
+        opacity: 0.75;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        left: 0;
+    }
+    #zuhu-modal-wrapper #zuhu-modal-overlay img
+    {
+        background-color: #888;
+        border-radius: 3px;
+        left: 50%;
+        margin: -24px;
+        position: absolute;
+        top: 50%;
+    }
+    #zuhu-modal-wrapper .modal-body
+    {
+        position: relative;
+    }
+    /*.zclip
+    {
+        left: 0 !important;
+        top: 0 !important;
+    }*/
+    
+    .tooltip > .tooltip-inner
+    {
+        background-color: #FFE693;
+        max-width: 800px !important;
+    }
+    .tooltip > .tooltip-arrow
+    {
+        border-bottom-color: #FFE693;
+    }
+    .tooltip.in
+    {
+        opacity: 1;
+    }
+    #zuhu-modal-wrapper #sendEmailModal
+    {
+        left: 50%;
+        margin: -350px 0 0 -345px !important;
+        width: 690px !important;
+    }
+    #sendEmailModal .modal-body
+    {
+        max-height: 500px !important;
+    }
+    
+    #detailPage .detailPageBody
+    {
+        border: 1 solid !important;
+    }
+
+    #divKendoGridProductList td{
+        overflow: visible;
+        white-space: normal;
+    }
+    #zuhu-modal-wrapper #orderTypeModal {
+        left: 50%;
+        margin: -250px 0 0 -200px !important;
+        width: 400px !important;
+    }
+</style>
+<script src="@Url.Content("~/Scripts/Quote/List.js")?@version" type="text/javascript"></script>
+<div class="content-inner">
+    <div class="container-fluid">
+        <div class="contentHolder">
+            <div class="row-fluid">
+                <div class="span12">
+                    <br>
+                    <h2>
+                        Quote List</h2>
+                    <hr style="border-color: yellowgreen;">
+                    <div id="divQuoteList" class="contentHolder">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <span>
+                                    <label>
+                                        Search:
+                                    </label>
+                                    <select id="searchSelect" style="width: 150px">
+                                        <option value="CompanyName">Company Name</option>
+                                        <option value="SearchQuoteId">Quote Number</option>
+                                        <option value="LastViewCount">Last View Count (L.V.C.)</option>
+                                    </select>
+                                    <input id="searchText" type="text" style="width: 200px" />
+                                    <span style="vertical-align: super; margin-left: 5px">Date :</span>
+                                    <input id="dateFrom" name="dateFrom" type="text" style="width:60px" value="@ViewBag.SearchDateFrom">
+                                    <span style="vertical-align: super;">To</span>
+                                    <input id="dateTo" name="dateTo" type="text" style="width:60px" value="@ViewBag.SearchDateTo">
+                                    <a id="search" role="button" class="btn btn-info" style="margin-top: -10px">Search</a>&nbsp;<a
+                                        id="resetSearch" role="button" class="btn btn-warning" style="margin-top: -10px">
+                                        Clear</a> <a onclick="removeFromGrid();" class="btn btn-danger" role="button" style="margin-top: -10px">
+                                            Delete Selected</a></span><span style="margin-left: 20px"><a style="margin-top: -10px"
+                                                role="button" class="btn btn-primary" onclick="ShowOrderType();">Add New</a> @*@if (TSS.Helper.SessionVars.CurrentLoggedInUser != null && TSS.Helper.SessionVars.CurrentLoggedInUser.IsTSSAdmin)
+                                            {
+                                                <div class="pull-right">
+                                                    <div class="btn-group" data-toggle="buttons">
+                                                        <label class="btn" style="border-style: none; background-color: white; background-image: none;"
+                                                            disabled="disabled">
+                                                            <b style="color: black">BluePay Mode:</b></label>
+                                                        <label class="btn btn-info @(ViewBag.BluePayMode == "LIVE" ? "active" : "")" style="border-top-left-radius: 4px; border-bottom-left-radius: 4px;">
+                                                            <input type="radio" value="LIVE" name="bluePayState" id="bluePayStateOp1" autocomplete="off">LIVE</label>
+                                                        <label class="btn btn-info @(ViewBag.BluePayMode == "TEST" ? "active" : "")">
+                                                            <input type="radio" value="TEST" name="bluePayState" id="bluePayStateOp2" autocomplete="off">TEST</label>
+                                                    </div>
+                                                </div>
+                                            }*@ </span><span style="margin-left: 10px"><a role="button" class="btn btn-primary"
+                                                style="margin-top: -10px" onclick="ShowEmailHistoryReport();">Email History Report</a>
+                                            </span>
+                            </div>
+                            <div class="pull-right" style="margin-top: -10px">
+                                <span id="gridLastUpdate"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px">
+                    </div>
+                    <div>
+                        <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"
+                            style="height: 10px">
+                            <div class="dataTables_length" style="height: 10px">
+                            </div>
+                        </div>
+                        <div id="divKendoGrid" style="width: 99.85%">
+                        </div>
+                        <div id="pager">
+                        </div>
+                        <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bottom ui-helper-clearfix"
+                            style="height: 5px">
+                            <div class="dataTables_length" style="height: 5px">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="detail-container">
+                    </div>
+                    <br />
+                    <div id="detailPage" style="display: none;">
+                        <style type="text/css">
+                            #zuhu-modal-wrapper .k-grid
+                            {
+                                /*border-color: #9cb4c9;
+        border-radius: 4px;
+        border-style: solid;
+        border-width: 2px 2px medium;*/
+                            }
+                            #zuhu-modal-wrapper .k-header
+                            {
+                                border-style: solid;
+                                border-width: 0 0 1px 1px;
+                                overflow: hidden;
+                                padding: 0.5em 0.6em 0.4em;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                            }
+                            #zuhu-modal-wrapper .k-header .k-link
+                            {
+                                display: block;
+                                line-height: 18px;
+                                margin: -0.5em -0.6em -0.4em;
+                                min-height: 18px;
+                                padding: 0.5em 0.6em 0.4em;
+                            }
+                            #zuhu-modal-wrapper .modal
+                            {
+                                left: 50%;
+                                margin: -250px 0 0 -285px;
+                                width: 570px;
+                            }
+                            #zuhu-modal-wrapper .k-grid table tr:hover
+                            {
+                                background-image: none, linear-gradient(to bottom, #fff 0px, #efefef 100%);
+                                cursor: pointer;
+                                box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.6) inset, 0 0 2px rgba(0, 0, 0, 0.3);
+                                border-color: #ccc;
+                                color: #676767;
+                            }
+                            #zuhu-modal-wrapper #zuhu-modal-overlay
+                            {
+                                background-color: #dcdcdc;
+                                display: none;
+                                height: 100%;
+                                opacity: 0.75;
+                                position: absolute;
+                                top: 0;
+                                width: 100%;
+                                left: 0;
+                            }
+                            #zuhu-modal-wrapper #zuhu-modal-overlay img
+                            {
+                                background-color: #888;
+                                border-radius: 3px;
+                                left: 50%;
+                                margin: -24px;
+                                position: absolute;
+                                top: 50%;
+                            }
+                            #zuhu-modal-wrapper .modal-body
+                            {
+                                position: relative;
+                            }
+                            #dvAccountList-wrapper, #dvContactList-wrapper
+                            {
+                                display: none;
+                            }
+                            
+                            .totalTable
+                            {
+                                border-collapse: collapse;
+                                font-family: "Trebuchet MS" ,Arial,Helvetica,sans-serif;
+                                width: 100%;
+                            }
+                            .productTable
+                            {
+                                border-collapse: collapse;
+                                font-family: "Trebuchet MS" ,Arial,Helvetica,sans-serif;
+                                width: 100%;
+                                font-size: 10px;
+                            }
+                            .productTable td, .productTable th
+                            {
+                                /*border: 1px solid cadetblue;*/
+                                font-size: 1.2em; /*padding: 10px 7px 2px;*/
+                                padding-left: 7px;
+                                vertical-align: top;
+                            }
+                            .productTable th
+                            {
+                                /*background-color: steelblue;
+                                color: #fff;*/
+                                font-size: 1.4em;
+                                padding-bottom: 6px;
+                                padding-top: 5px;
+                                text-align: left;
+                                padding-left: 5px;
+                                text-decoration: underline;
+                            }
+                            .productTable tr.alt td
+                            {
+                                background-color: #eaf2d3;
+                                color: #000;
+                            }
+                        </style>
+                        <script type="text/javascript">
+                            var employeeId = "@(TSS.Helper.SessionVars.CurrentLoggedInUser == null ? 0 : TSS.Helper.SessionVars.CurrentLoggedInUser.EmployeeId)";
+                        </script>
+                        <script src="@Url.Content("~/scripts/Quote/Index.js")?@version" type="text/javascript"></script>
+                        <fieldset class="detailPageBody" style="border: 1px solid #c9d8ca; margin: 5px">
+                            <div style="background: none repeat-x scroll 0 0 #c9d8ca; border-top-left-radius: 2px;
+                                border-top-right-radius: 2px; height: 40px;">
+                                <div style="padding: 6px">
+                                    <div style="line-height: 25px; font-size: 24px; font-weight: bold; float: left">
+                                        Quote
+                                    </div>
+                                    <div style="float: right">
+                                        <span style="vertical-align: text-top;margin-right:20px;font-size: large;font-weight: bold;"><input type="checkbox" id="chkIsDemo" style="transform: scale(1.5);" /> For Demonstration Purpose</span>
+                                        <a id="aApprove" role="button" class="btn btn-primary" onclick="ApproveQuote($('#quoteId').val());">Approve</a>&nbsp;&nbsp;
+                                        <a id="aSaveAsNewToDB" role="button" class="btn btn-primary" onclick="SaveAs();">Save As New</a>&nbsp;&nbsp;
+                                        <a id="aSaveToDB" role="button" class="btn btn-primary" onclick="Save();">Save</a>&nbsp;&nbsp;
+                                        <a id="aCancel" role="button" class="btn btn-warning" onclick="Cancel();">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="margin-top: 0; border-color: yellowgreen;" />
+                            <div style="margin: 20px">
+                                <div class="contentHolder">
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <div>
+                                                <table style="width: 90%;">
+                                                    <tr id="trOrderType">
+                                                        <td>
+                                                            <b>Order Type:</b>
+                                                        </td>
+                                                        <td>
+                                                            <select id="ddlOrderType"></select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trOrderTypeSpace">
+                                                        <td colspan="4">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Quote Template:
+                                                        </td>
+                                                        <td colspan="3">
+                                                            <div class="QuoteTemplateDDL-wrapper">
+                                                                <select id="SelVal"></select>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Quote Number:
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" id="quoteId" value="@ViewBag.QuoteId" />
+                                                            <span id="quoteNumber"></span>
+                                                        </td>
+                                                        <td>
+                                                            Contract Term:
+                                                        </td>
+                                                        <td>
+                                                            <select id="contractTerm" style="width: 100px">
+                                                                <option value="1">Monthly</option>
+                                                                <option value="6">6 Months</option>
+                                                                <option value="12" selected=selected>12 Months</option>
+                                                                <option value="24">24 Months</option>
+                                                                <option value="36">36 Months</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Quote Date:
+                                                        </td>
+                                                        <td>
+                                                            <label id="quoteDate">@DateTime.Now.ToString("MM/dd/yyyy")</label>
+                                                        </td>
+                                                        <td>
+                                                            Valid Until:
+                                                        </td>
+                                                        <td>
+                                                            <select id="validUntil" style="width: 100px">
+                                                                <option value="30">30 Days</option>
+                                                                <option value="60">60 Days</option>
+                                                                <option value="90">90 Days</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Sales Person:</b>
+                                                        </td>
+                                                        <td>
+                                                            <select id="salesPerson" style="width: 250px"></select>
+                                                        </td>
+                                                        <td>
+                                                            <b>Sales Person Email:</b>
+                                                        </td>
+                                                        <td>
+                                                            <span id="salesPersonEmail"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"></td>
+                                                        <td>
+                                                            <b>Sales Person Phone:</b>
+                                                        </td>
+                                                        <td>
+                                                            <span id="salesPersonCell"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td colspan="3">
+                                                            <a id="aShowZuhuModal" href="#" role="button" class="btn btn-info" data-toggle="modal">Zoho LookUp</a>
+                                                            <input id="ZohoEntityId" type="hidden" />
+                                                            <input id="ZohoEntityType" type="hidden" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            &nbsp;
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>NetTrack Client:</b>
+                                                        </td>
+                                                        <td colspan="3">
+                                                            <input id="nettrackClient" type="text" style="width: 200px" /><input id="nettrackClientId"
+                                                                                                                                 type="hidden" />
+                                                            <a href="#NetTrackClient-Modal" role="button" class="btn btn-info" data-toggle="modal"
+                                                               style="margin-top: -10px">Add-on</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+                                                            Same as Bill to
+                                                            <input id="sameAsBillTo" type="checkbox" />
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Bill to Info</b>
+                                                        </td>
+                                                        <td></td>
+                                                        <td>
+                                                            <b>Ship to Info</b>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 10%">
+                                                            Company Name:
+                                                        </td>
+                                                        <td>
+                                                            <input id="billCompanyName" type="text" style="width: 200px" tabindex="0" />
+                                                        </td>
+                                                        <td style="width: 10%">
+                                                            Company Name:
+                                                        </td>
+                                                        <td>
+                                                            <input id="shipCompanyName" type="text" style="width: 200px" tabindex="1" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Country:
+                                                        </td>
+                                                        <td>
+                                                            <select id="billCountry" tabindex="0" style="width: 210px">
+                                                                <option value="CA">Canada</option>
+                                                                <option value="MX">Mexico</option>
+                                                                <option selected="selected" value="US">United States</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            Country:
+                                                        </td>
+                                                        <td>
+                                                            <select id="shipCountry" tabindex="1" style="width: 210px">
+                                                                <option value="CA">Canada</option>
+                                                                <option value="MX">Mexico</option>
+                                                                <option selected="selected" value="US">United States</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Address 1:
+                                                        </td>
+                                                        <td>
+                                                            <input id="billAddress1" type="text" style="width: 250px" tabindex="0" />
+                                                        </td>
+                                                        <td>
+                                                            Address 1:
+                                                        </td>
+                                                        <td>
+                                                            <input id="shipAddress1" type="text" style="width: 250px" tabindex="1" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Address 2:
+                                                        </td>
+                                                        <td>
+                                                            <input id="billAddress2" type="text" style="width: 250px" tabindex="0" />
+                                                        </td>
+                                                        <td>
+                                                            Address 2:
+                                                        </td>
+                                                        <td>
+                                                            <input id="shipAddress2" type="text" style="width: 250px" tabindex="1" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="display: none">
+                                                        <td>
+                                                            City, State, Zip:
+                                                        </td>
+                                                        <td>
+                                                            <input id="billCityStateZip" type="text" style="width: 200px" tabindex="0" />
+                                                            (Ex: City, State, Zip)
+                                                        </td>
+                                                        <td>
+                                                            City, State, Zip:
+                                                        </td>
+                                                        <td>
+                                                            <input id="shipCityStateZip" type="text" style="width: 200px" tabindex="1" />
+                                                            (Ex: City, State, Zip)
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            City:
+                                                        </td>
+                                                        <td>
+                                                            <input id="billCity" type="text" style="width: 200px" tabindex="0" />
+                                                        </td>
+                                                        <td>
+                                                            City:
+                                                        </td>
+                                                        <td>
+                                                            <input id="shipCity" type="text" style="width: 200px" tabindex="1" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            State:
+                                                        </td>
+                                                        <td>
+                                                            <select id="billState" tabindex="0" style="width: 210px"></select>
+                                                        </td>
+                                                        <td>
+                                                            State:
+                                                        </td>
+                                                        <td>
+                                                            <select id="shipState" tabindex="1" style="width: 210px"></select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Zip:
+                                                        </td>
+                                                        <td>
+                                                            <input id="billZip" type="text" style="width: 200px" tabindex="0" />
+                                                        </td>
+                                                        <td>
+                                                            Zip:
+                                                        </td>
+                                                        <td>
+                                                            <input id="shipZip" type="text" style="width: 200px" tabindex="1" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Billing Contact:
+                                                        </td>
+                                                        <td>
+                                                            <input id="billContact" type="text" style="width: 200px" tabindex="0" />
+                                                        </td>
+                                                        <td>
+                                                            Ship to Contact:
+                                                        </td>
+                                                        <td>
+                                                            <input id="shipContact" type="text" style="width: 200px" tabindex="1" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Billing Email:
+                                                        </td>
+                                                        <td>
+                                                            <input id="billEmail" type="text" style="width: 200px" tabindex="0" />
+                                                        </td>
+                                                        <td>
+                                                            Ship to Email:
+                                                        </td>
+                                                        <td>
+                                                            <input id="shipEmail" type="text" style="width: 200px" tabindex="1" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Phone#:
+                                                        </td>
+                                                        <td>
+                                                            <input id="billPhone" type="text" tabindex="0" />
+                                                        </td>
+                                                        <td>
+                                                            Phone#:
+                                                        </td>
+                                                        <td>
+                                                            <input id="shipPhone" type="text" tabindex="1" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="vertical-align: text-top;">
+                                                            Note:
+                                                        </td>
+                                                        <td colspan="3">
+                                                            <textarea id="txtNote" rows="4" style="width:74%"></textarea>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 69%;">
+                                    <a id="adisableQuantityRestriction" href="#" style="float: right">Disable Qty Sync</a>
+                                </div>
+                                <br />
+                                <div id="productContainer">
+                                    <div id="productContent">
+                                    </div>
+                                    <script type="text/x-kendo-template" id="productTemplate">
+                                        <div class="Package" style="width: 69%; border: 1px solid gainsboro;">
+                                            <div style="margin-left: 5px; margin-right: 5px">
+                                                <h2 style="background-color: rgb(238, 238, 238); margin: 0px -5px; padding: 0px 5px;" class="PackageId" data-deleted="0" data-maxproductqty="1" data-packageid="#: ProductIndex #">
+                                                    <span class="package-title">Product #: PackageTitleIndex #</span><span style="float:right"><a href="" class="remove-package">x</a></span>
+                                                </h2>
+                                                <div class="product" product-index="#: ProductIndex + 1 #">
+                                                    <hr style="margin-top: 0px; margin-bottom: 0px" />
+                                                    <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                        Hardware
+                                                    </h1>
+                                                    <div style="text-align: right">
+                                                        <a href="" role="button" class="product-action" product-type="hardware">Add Hardware</a>
+                                                        | <a href="" role="button" class="product-action" product-type="discount">Add Discount</a>
+                                                    </div>
+                                                    <div style="margin-bottom: 10px; margin-top: 0px">
+                                                        <table class="productTable" Product-Category="Hardware">
+                                                            <tr>
+                                                                <th style="width: 86px; text-decoration: none; font-weight: normal; text-align: left;">
+                                                                    Hardware
+                                                                </th>
+                                                                <th style="width: 80px; text-align: center;">
+                                                                    Quantity
+                                                                </th>
+                                                                <th style="width: 100px">
+                                                                    SKU
+                                                                </th>
+                                                                <th>
+                                                                    Hardware Description
+                                                                </th>
+                                                                <th style="width: 100px; text-align:right;">
+                                                                    <span style="padding-right:20px">Price</span>
+                                                                </th>
+                                                                <th style="width: 125px">
+                                                                    Extended Price
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                        <table class="totalTable">
+                                                            <tr>
+                                                                <th style="width: 80px; text-align: center;">
+                                                                </th>
+                                                                <th style="width: 150px">
+                                                                </th>
+                                                                <th style="text-align: right;">
+                                                                    Total Hardware:
+                                                                </th>
+                                                                <th style="width: 100px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 24px; text-align: right;">
+                                                                    <span class="unit-product-total">$0.00</span>
+                                                                </th>
+                                                                <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                                    <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="product" product-index="#: ProductIndex + 2 #">
+                                                    <hr style="margin-top: 0px; margin-bottom: 0px" />
+                                                    <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                        Monthly
+                                                    </h1>
+                                                    <div style="text-align: right">
+                                                        <a href="" role="button" class="product-action" product-type="monthly">Add Monthly</a>
+                                                        | <a href="" role="button" class="product-action" product-type="discount">Add Discount</a>
+                                                    </div>
+                                                    <div style="margin-bottom: 10px; margin-top: 0px">
+                                                        <table class="productTable" Product-Category="Monthly">
+                                                            <tr>
+                                                                <th style="width: 86px; text-decoration: none; font-weight: normal; text-align: left;">
+                                                                    Monthly
+                                                                </th>
+                                                                <th style="width: 80px; text-align: center;">
+                                                                    Quantity
+                                                                </th>
+                                                                <th style="width: 100px">
+                                                                    SKU
+                                                                </th>
+                                                                <th>
+                                                                    Monthly Description
+                                                                </th>
+                                                                <th style="width: 100px; text-align:right;">
+                                                                    <span style="padding-right:20px">Price</span>
+                                                                </th>
+                                                                <th style="width: 125px">
+                                                                    Extended Price
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                        <table class="totalTable">
+                                                            <tr>
+                                                                <th style="width: 80px; text-align: center;">
+                                                                </th>
+                                                                <th style="width: 150px">
+                                                                </th>
+                                                                <th style="text-align: right;">
+                                                                    Total Monthly:
+                                                                </th>
+                                                                <th style="width: 100px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 24px; text-align: right;">
+                                                                    <span class="unit-product-total">$0.00</span>
+                                                                </th>
+                                                                <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                                    <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="product" product-index="#: ProductIndex + 3 #">
+                                                    <hr style="margin-top: 0px; margin-bottom: 0px" />
+                                                    <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                        Optional
+                                                    </h1>
+                                                    <div style="text-align: right">
+                                                        <a href="" role="button" class="product-action" product-type="service">Add Optional</a>
+                                                        | <a href="" role="button" class="product-action" product-type="discount">Add Discount</a>
+                                                    </div>
+                                                    <div style="margin-bottom: 10px; margin-top: 0px">
+                                                        <table class="productTable" Product-Category="Optional">
+                                                            <tr>
+                                                                <th style="width: 86px; text-decoration: none; font-weight: normal; text-align: left;">
+                                                                    Optional
+                                                                </th>
+                                                                <th style="width: 80px; text-align: center;">
+                                                                    Quantity
+                                                                </th>
+                                                                <th style="width: 100px">
+                                                                    SKU
+                                                                </th>
+                                                                <th>
+                                                                    Optional Description
+                                                                </th>
+                                                                <th style="width: 100px; text-align:right;">
+                                                                    <span style="padding-right:20px">Price</span>
+                                                                </th>
+                                                                <th style="width: 125px">
+                                                                    Extended Price
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                        <table class="totalTable">
+                                                            <tr>
+                                                                <th style="width: 80px; text-align: center;">
+                                                                </th>
+                                                                <th style="width: 150px">
+                                                                </th>
+                                                                <th style="text-align: right;">
+                                                                    Total Optional:
+                                                                </th>
+                                                                <th style="width: 100px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 24px; text-align: right;">
+                                                                    <span class="unit-product-total">$0.00</span>
+                                                                </th>
+                                                                <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                                    <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="product" product-index="#: ProductIndex + 4 #">
+                                                    <hr style="margin-top: 0px; margin-bottom: 0px" />
+                                                    <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                        Misc Fee
+                                                    </h1>
+                                                    <div style="text-align: right">
+                                                        <a href="" role="button" class="product-action" product-type="misc fee">Add Misc Fee</a>
+                                                        | <a href="" role="button" class="product-action" product-type="discount">Add Discount</a>
+                                                    </div>
+                                                    <div style="margin-bottom: 10px; margin-top: 0px">
+                                                        <table class="productTable" Product-Category="Misc Fee">
+                                                            <tr>
+                                                                <th style="width: 86px; text-decoration: none; font-weight: normal; text-align: left;">
+                                                                    Misc Fee
+                                                                </th>
+                                                                <th style="width: 80px; text-align: center;">
+                                                                    Quantity
+                                                                </th>
+                                                                <th style="width: 100px">
+                                                                    SKU
+                                                                </th>
+                                                                <th>
+                                                                    Misc Fee Description
+                                                                </th>
+                                                                <th style="width: 100px; text-align:right;">
+                                                                    <span style="padding-right:20px">Price</span>
+                                                                </th>
+                                                                <th style="width: 125px">
+                                                                    Extended Price
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                        <table class="totalTable">
+                                                            <tr>
+                                                                <th style="width: 80px; text-align: center;">
+                                                                </th>
+                                                                <th style="width: 150px">
+                                                                </th>
+                                                                <th style="text-align: right;">
+                                                                    Total Misc Fee:
+                                                                </th>
+                                                                <th style="width: 100px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 24px; text-align: right;">
+                                                                    <span class="unit-product-total">$0.00</span>
+                                                                </th>
+                                                                <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                                    <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div style="display:none">
+                                                    <hr style="margin-bottom: -10px; margin-top: 0px;" />
+                                                    <div style='line-height: 0px'>&nbsp;</div>
+                                                    <table style="width: 100%">
+                                                        <tr>
+                                                            <td style="width: 80px; text-align: center;"></td>
+                                                            <td style="width: 150px"></td>
+                                                            <td></td>
+                                                            <td style="width: 120px; text-align: right; padding-right: 30px;">
+                                                                <b>Product Total Price:</b>
+                                                            </td>
+                                                            <td style="width: 125px; text-align: right;">
+                                                                <b><span style="padding-right: 40px" class="product-summary">$0.00</span></b>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </script>
+                                    <br />
+                                    <div style="width: 69%">
+                                        <a id="aAddMoreProduct" style="float: right;" role="button" class="btn btn-info">
+                                            Add
+                                            More Product
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <div id="optionalService">
+                                        </div>
+                                    </div>
+                                    <br />
+                                    &nbsp;
+                                    <div style="width: 69%">
+                                        <hr />
+                                        <br />
+                                        <table style="width: 100%">
+                                            <tr>
+                                                <td style="width: 80px; text-align: center;"></td>
+                                                <td style="width: 150px"></td>
+                                                @*<td></td>*@
+                                                <td colspan="3" style="width: 272px; text-align: right; padding-right: 30px;">
+                                                    <b style="font-size: large; color: darkblue">Choose your service:</b> &nbsp;<input name="SH" value="Ground" checked="checked" type="radio" />
+                                                    <span id="shGround" title="1-5 Business Days" style="font-size: large; color: darkblue;
+                                                        vertical-align: sub">Ground,</span> &nbsp;<input name="SH" value="2Day" type="radio" />
+                                                    <span id="shSecondAir" title="2 Business Days" style="font-size: large; color: darkblue;
+                                                        vertical-align: sub">2nd day AIR,</span> &nbsp;<input name="SH" value="NextAir" type="radio" />
+                                                    <span id="shNextAir" title="Next Business Day" style="font-size: large; color: darkblue;
+                                                        vertical-align: sub">Next day AIR,</span> &nbsp;<input name="SH" value="Free" type="radio" />
+                                                    <span id="shFree" title="Free Shipping" style="font-size: large; color: darkblue;
+                                                        vertical-align: sub">Free</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 80px; text-align: center;"></td>
+                                                <td style="width: 150px"></td>
+                                                <td colspan="2" style="text-align: right; padding-right: 30px; vertical-align: super;">
+                                                    <b>Total Shipping and Handling:</b>
+                                                </td>
+                                                <td style="width: 125px; text-align: right;">
+                                                    $<span id="shippingAndHandling" style="padding-right: 40px;">0.0</span> @*<input id="shippingAndHandling" type="text" style="width: 50px" value="0.00">*@
+                                                </td>
+                                            </tr>
+                                            <tr style="display: none">
+                                                <td style="width: 80px; text-align: center;"></td>
+                                                <td style="width: 150px"></td>
+                                                <td></td>
+                                                <td style="width: 100px; text-align: right; padding-right: 30px;">
+                                                    <b>Summary:</b>
+                                                </td>
+                                                <td style="width: 125px; text-align: left;">
+                                                    $&nbsp;&nbsp; <b><span class="product-summary">0.00</span></b>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div>
+                                            <div>
+                                                <b style="text-decoration: underline;">Summary:</b>
+                                            </div>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        Total Hardware Fees:
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span id="totalHardwareFees">$0.00</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Sales Tax Fees:
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span id="totalSalesTaxFees">$0.00</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Total Monthly Fees:
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span id="totalMonthlyFees">$0.00</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Total Optional Fees:
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span id="totalOptionalFees">$0.00</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Total Misc Fees:
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span id="totalMiscFees">$0.00</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Total Shipping and Handling:&nbsp;&nbsp;
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span id="totalShippingAndHandlingFees">$0.00</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        &nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Total Product Weight:&nbsp;&nbsp;
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span id="totalProductWeight">0.0</span>&nbsp;lbs
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <script type="text/javascript">
+                                                            var DevicesLessThan3 = '@ViewBag.DevicesLessThan3';
+                                                            var Devices4To6 = '@ViewBag.Devices4To6';
+                                                            var DevicesGreaterThan7 = '@ViewBag.DevicesGreaterThan7';
+                                                        </script>
+                                                        Shipping Box Size:&nbsp;&nbsp;
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span id="totalShippingBoxSize">7x7x4</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <br />
+                                        <b style="color: Red">
+                                            * This order will include Hardware, Sales Tax, Misc Fees; Shipping
+                                            and Handling. Customs and duties fees for Canada and Mexico are NOT covered by TYT and will be paid by the customer. Total to be charged today: $<span style="color: Red" id="totalCharged">0.00</span>.
+                                        </b>
+                                    </div>
+                                    <br />
+                                    &nbsp;
+                                </div>
+                                <div style="display: none">
+                                    <h2>
+                                        Products
+                                    </h2>
+                                    <span>
+                                        <a id="aAddNew" style="float: right; margin-top: -32px;" role="button" class="btn btn-primary">
+                                            Add New
+                                        </a>
+                                    </span>
+                                    <div>
+                                        <div id="divKendoGridAddedProducts">
+                                        </div>
+                                        <br />
+                                        &nbsp;
+                                    </div>
+                                    <h2>
+                                        Optional Services
+                                    </h2>
+                                    <div>
+                                        <div id="divKendoGridAddedOptionalServices">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                &nbsp;
+                                <br />
+                                &nbsp;
+                                <br />
+                                &nbsp;
+                                <div id="zuhu-modal-wrapper">
+                                    <!-- Modal -->
+                                    <div id="Zuhu-Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                ×
+                                            </button>
+                                            <h3 id="myModalLabel">
+                                                Zoho LookUp
+                                            </h3>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="zuhu-search-panel">
+                                                <form class="form-search">
+                                                    <select id="zohoLinkType" class="input-medium">
+                                                        <option value="Lead">Lead</option>
+                                                        @*<option value="Contact">Contact</option>*@
+                                                        <option value="Account">Account</option>
+                                                    </select>
+                                                    <input placeholder="Company Name" id="Search-Zuhu-pattern" type="text" class="input-medium search-query" />
+                                                    <button id="Search-Zuhu-btn" type="button" class="btn">
+                                                        Search
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div id="modal-wrapper">
+                                                <div id="dvAccountList-wrapper">
+                                                    <b>Please select an account</b>
+                                                    <br />
+                                                    <div class="k-grid k-widget">
+                                                        <div id="dvAccountList" class="k-grid-content" style="width: 100%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="dvContactList-wrapper">
+                                                    <br />
+                                                    <b>Please select a contact</b>
+                                                    <br />
+                                                    <div class="k-grid k-widget">
+                                                        <div id="dvContactList" class="k-grid-content" style="width: 100%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="zuhu-modal-overlay">
+                                                <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="btnZohoSearchNext200" type="button" class="btn" style="float:left" disabled>
+                                                Next 200
+                                            </button>
+                                            &nbsp; &nbsp;
+                                            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                                                Close
+                                            </button>
+                                            <button class="btn btn-primary" id="btnSaveZoho" onclick="SaveZoho();">
+                                                Select
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                </div>
+                                <div id="zuhu-modal-wrapper">
+                                    <!-- Modal -->
+                                    <div id="Product-Modal" style="width: 670px; margin: -250px 0 0 -385px;" class="modal hide fade"
+                                         tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                ×
+                                            </button>
+                                            <h3 id="myModalLabel">
+                                                Product List
+                                            </h3>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="zuhu-search-panel">
+                                                <form class="form-search">
+                                                    <div id="divKendoGridProductList">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div id="modal-wrapper">
+                                                <div id="dvAccountList-wrapper">
+                                                    <b>Please select an account</b>
+                                                    <br />
+                                                    <div class="k-grid k-widget">
+                                                        <div id="dvAccountList" class="k-grid-content" style="width: 100%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="zuhu-modal-overlay">
+                                                <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                </div>
+                                <div id="zuhu-modal-wrapper">
+                                    <!-- Modal -->
+                                    <div id="NetTrackClient-Modal" style="width: 670px; margin: -250px 0 0 -385px;" class="modal hide fade"
+                                         tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                ×
+                                            </button>
+                                            <h3 id="myModalLabel">
+                                                NetTrack Client List
+                                            </h3>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="zuhu-search-panel">
+                                                <form class="form-search">
+                                                    <b>NetTrack Client Name:</b>
+                                                    <input type="text" id="Search-NetTrackClient-Text" />
+                                                    <button id="Search-NetTrackClient-btn" type="button" class="btn">
+                                                        Search
+                                                    </button>
+                                                    &nbsp; &nbsp;
+                                                </form>
+                                            </div>
+                                            <div id="zuhu-search-panel">
+                                                <form class="form-search">
+                                                    <div class="k-grid k-widget">
+                                                        <div id="divNetTrackClientList" class="k-grid-content" style="width: 100%">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div id="zuhu-modal-overlay">
+                                                <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                                                Close
+                                            </button>
+                                            <button class="btn btn-primary" id="btnSelectClient" onclick="SelectClient();" disabled="disabled">
+                                                Select
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <script id="date-template" type="text/x-kendo-template">
+                        #= CreatedDateFormated #
+                        &nbsp;
+                        #if(IsExpired == true){#
+                        <a class="btn btn-small btn-danger" href="javascript:ResetQuote('${ QuoteId }')" >Reset</a>
+                        #}#
+                        #if((IsApproved == '' || IsApproved == 'Y') && !IsExpired){#
+                        <a id="sendNow#:QuoteId#" class="aSendUserUrl btn btn-small btn-info" data-CompanyName="#:CompanyName#" data-CustomerName="#:CustomerName#" data-Email="#:BillToBillingEmail#" data-QuoteId="#:QuoteId#" data-Url="#:Url#" onClick="SendUserUrl(this)">Send Now</a>
+                        #}#
+                        #if(MailGunEvent == '' || MailGunEvent == 'opened' || MailGunEvent == 'delivered'){#
+                        <a class="btn btn-small btn-info" href="javascript:ShowEmailHistory('${ QuoteId }')" >Email History</a>
+                        #} else {#
+                        <a class="btn btn-small btn-danger" href="javascript:ShowEmailHistory('${ QuoteId }')">Email History</a>
+                        #}#
+                        <a class="btn btn-small btn-info" href="javascript:PDF('${ PdfToken }')" >PDF Version</a>
+                        #if(IsApproved == '' || IsApproved == 'Y'){#
+                        <a class="btn btn-small btn-info" target="_blank" href="${ Url }">View</a>
+                        <a class="btn btn-small btn-info" href="javascript:ShowShortUrl('${ Url }')">Tiny Url</a>
+                        #}#
+                        #if(IsApproved == 'N' && ShowApprove == true){#
+                        <a class="btn btn-small btn-info" href="javascript:ApproveQuote('${ QuoteId }')">Approve</a>
+                        #} else if(IsApproved == 'N') {#
+                        <a class="btn btn-small btn-info" href="javascript: function doNothing(e){ e.preventDefault(); }" disabled="disabled">Approve</a>
+                        #} else if(IsApproved == 'Y') {#
+                        <a class="btn btn-small btn-info" href="javascript: function doNothing(e){ e.preventDefault(); }" disabled="disabled" 
+                           ApprovedUserName="#: ApprovedUserName #" ApprovedDateFormated="#: ApprovedDateFormated #"
+                           onMouseEnter="javascript:ShowApprovedTooltip(this)" onMouseLeave="javascript:HideApprovedTooltip(this)">Approved</a>
+                        #}#
+                    </script>
+                    <script id="lastViewDateTemplate" type="text/x-kendo-template">
+                        <div onMouseEnter="javascript:ShowLastViewDDL(this, ${ QuoteId })" onMouseLeave="javascript:HideLastViewDDL(this)">
+                            <span class='LastViewDateFormated'>
+                                #if(LastViewDateFormated != null){#
+                                    #= LastViewDateFormated #
+                                #}#
+                            </span>
+                            <span class='LastViewDateDDL' style='display:none'>
+                                <select style='width:100%;margin-bottom: 0;'>
+                                    #if(LastViewDateFormated != null){#
+                                        <option>#= LastViewDateFormated #</option>
+                                    #}#
+                                </select>
+                            </span>
+                            &nbsp;
+                        </div>
+                    </script>
+                    <script id="unsubscribeTemplate" type="text/x-kendo-template">
+                        #if(UnsubscribeCount > 0){#
+                        <center>
+                            <a href='##' onClick="javascript:return false;" onMouseEnter="javascript:ShowUnsubscribeList(this, ${ QuoteId })" onMouseLeave="javascript:HideUnsubscribeList(this)" />List</a>
+                        </center>
+                        #}#
+                    </script>
+                    @if (TSS.Helper.SessionVars.CurrentLoggedInUser != null && TSS.Helper.SessionVars.CurrentLoggedInUser.IsTSSAdmin)
+                    { 
+                        <script id="convert-to-order-template" type="text/x-kendo-template">
+                            #if(IsApproved == '' || IsApproved == 'Y'){#
+                                #if(StatusTitle == ""){#
+                                    <a class="btn btn-small btn-info" data-QuoteId="#:QuoteId#" data-IsValidShippingAddress="#:IsValidShippingAddress#" onClick="ShowConvertToOrderPopup(this)">Convert to Order</a>
+                                #} else {#
+                                    <input type="button" class="btn btn-small btn-info" disabled="disabled"  title="Convert to Order" value="Convert to Order"  style="background-color: gray; width: 99%;"/>         
+                                #}#
+                            #}#
+                        </script>
+                    }
+                    else
+                    { 
+                        <script id="convert-to-order-template" type="text/x-kendo-template">
+                            <input type="button" class="btn btn-small btn-info" disabled="disabled"  title="Convert to Order"  style="background-color: gray; width: 99%;"/>        
+                        </script>
+                    }
+                    <script id="note-template" type="text/x-kendo-template">
+                        #if (Note != '' ) {#
+                        <img note="#: Note #" src="@Url.Content("~/Content/images/Note.png")" onMouseEnter="javascript:ShowQuoteNoteTooltip(this)" onMouseLeave="javascript:HideQuoteNoteTooltip(this)">
+                        #}#
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="orderTypeModal" class="modal hide fade" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×
+            </button>
+            <h3 id="myModalLabel">
+                Order Type
+            </h3>
+        </div>
+        <div class="modal-body">
+            <div id="modal-wrapper">
+                <div id="orderTypeContent">
+
+                </div>
+            </div>
+            <div id="zuhu-modal-overlay">
+                <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                Close
+            </button>
+            <button class="btn btn-primary" id="btnConvertToOrder" onclick="SetOrderType();">
+                New
+            </button>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="sendEmailModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        @using (Html.BeginForm("SendUserUrl", "Quote", FormMethod.Post, new { id = "formSendMail", name = "formSendMail", enctype = "multipart/form-data" }))
+        {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×</button>
+                <h3 id="myModalLabel">
+                    Send Email</h3>
+            </div>
+            <div class="modal-body">
+                <div id="modal-wrapper">
+                    <input id="isLocalMail" name="IsLocalMail" type="hidden" />
+                    <input id="isAttachDoc" name="IsAttachDoc" type="hidden" value="false" />
+                    <input id="sendNowId" type="hidden" />
+                    <input id="mailQuoteId" name="QuoteId" type="hidden" />
+                    <input id="customerName" name="CustomerName" type="hidden" />
+                    <div id="divEmailTemplateSection">
+                        <b>Template:</b><br />
+                        <select id="emailTemplate" style="width: 50%">
+                        </select>
+                        <div style="float: right; margin-right: 85px; margin-top: 5px">
+                            <a id="aUnsubscribeList" href="#">Unsubscribe List</a>
+                        </div>
+                    </div>
+                    <div>
+                        <b>To:</b><br />
+                        <input id="mailTo" name="MailTo" type="text" style="width: 98%" />
+                    </div>
+                    <div style="width: 100%;">
+                        <b>Message:</b><br />
+                        <textarea id="mailBody" name="Body"></textarea>
+                    </div>
+                    <br />
+                    <div id="divEmailAttachmentSec" style="display: none">
+                        <b>&nbsp;&nbsp;&nbsp;&nbsp;Attachment:</b><br />
+                        <div id="divEmailAttachment">
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div id="zuhu-modal-overlay">
+                    <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <label class="pull-left">
+                    <input id="chkIncludePdf" type="checkbox" onchange="IncludePdf()" /> Include PDF
+                </label>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">
+                    Close</button>
+                <button class="btn btn-info" id="btnAddEmailAttachment" type="button" onclick="AddEmailAttachment();">
+                    Add Attachment</button>
+                <button class="btn btn-info" id="btnEmailPreview" type="button" onclick="EmailPreview();">
+                    Email Preview</button>
+                <button class="btn btn-primary" id="btnSendEmail" type="submit" onclick="$('#isLocalMail').val(false); return true;">
+                    Send Email</button>
+                <button class="btn btn-primary" id="btnSendEmailLocal" type="submit" value="local" onclick="$('#isLocalMail').val(true); return true;">
+                    Send Email (Local)</button>
+            </div>
+        }
+    </div>
+    <!-- Modal -->
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="copyModal" class="modalCopy modal hide fade" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×</button>
+            <h3 id="myModalLabel">
+                Short URL</h3>
+        </div>
+        <div class="modal-body">
+            <div id="modal-wrapper">
+                <div>
+                    <div class="input-group">
+                        <input id="txtShortUrl" class="form-control" type="text" style="width: 50%" />
+                        <span class="input-group-btn">&nbsp;<a class="btn btn-primary" data-clipboard-target="#txtShortUrl" id="aCopy" href="#"
+                            style="margin-top: -9px"> Copy</a>
+                            <button class="btn" data-dismiss="modal" aria-hidden="true" style="margin-top: -9px">
+                                Close</button></span>
+                    </div>
+                    <span id="spanCopyStatus" style="color:green"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="convertToOrderModal" class="modal hide fade" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×</button>
+            <h3 id="myModalLabel">
+                Convert to Order</h3>
+        </div>
+        <div class="modal-body">
+            <div id="modal-wrapper">
+                <input id="convertToOrderQuoteId" type="hidden" />
+                <div>
+                    <b>Method of Payment:</b><br />
+                    <select id="paymentMethodType" style="width: 30%">
+                    </select>
+                </div>
+                <div>
+                    <b>Comments:</b><br />
+                    <textarea rows="3" id="paymentMethodComment" style="width: 98%"></textarea>
+                </div>
+            </div>
+            <div id="zuhu-modal-overlay">
+                <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                Close</button>
+            <button class="btn btn-primary" id="btnConvertToOrder" onclick="ConvertToOrder();">
+                Convert to Order</button>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="mailHistoryModal" style="width: 1000px; margin: -250px 0 0 -500px;" class="modal hide fade"
+        tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×</button>
+            <h3 id="myModalLabel">
+                E-mail History</h3>
+        </div>
+        <div class="modal-body">
+            <div id="zuhu-search-panel">
+                <form class="form-search">
+                <div id="divKendoGridEmailHistory">
+                </div>
+                </form>
+                <div style="color: black; font-size: 12px;">
+                    * MailGun ID: xxxxxxxxxxxxxx.xxxxxx.xxxxx@nettrackmail.trackyourtruck.com
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                Close</button>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="mailHistoryReportModal" style="width: 1000px; margin: -250px 0 0 -500px;"
+        class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×</button>
+            <h3 id="myModalLabel">
+                E-mail History Report</h3>
+        </div>
+        <div class="modal-body">
+            <div id="zuhu-search-panel">
+                <form id="emailHistoryReportForm" class="form-search">
+                <div>
+                    <label>
+                        Email Status:
+                    </label>
+                    <select id="searchEmailStatus" style="width: 150px">
+                        <option value="all" selected>All</option>
+                        <option value="pending">Pending</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="opened">Opened</option>
+                        <option value="dropped">Dropped</option>
+                    </select>
+                    &nbsp;&nbsp;
+                    <label>
+                        Date :</label>
+                    <input id="sentEmailDateFrom" type="text" style="width:60px" value="@ViewBag.SearchDateFrom" />
+                    <label>
+                        To</label>
+                    <input id="sentEmailDateTo" type="text" style="width:60px" value="@ViewBag.SearchDateTo" />
+                    &nbsp;&nbsp; <a class="btn btn-info" onclick="ShowEmailHistoryReport()">Search</a>
+                    <div class="pull-right">
+                        <a id="aEmailHistoryExportToExcel" onclick="EmailHistoryExportToExcel();" class="btn btn-primary">
+                            Export To Excel</a>
+                    </div>
+                </div>
+                <br />
+                <div id="divKendoGridEmailHistoryReport">
+                </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                Close</button>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>
+<script id="userEmailTemplate" type="text/x-kendo-template">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>TSS Email</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <style type="text/css">
+    .social
+    {
+        display: block;
+        float: left;
+        height: 30px;
+        margin: 0 10px 0 0;
+        width: 30px;
+    }
+</style>
+<table style="margin: 0px  auto; color: \u0023000000;" class="content" border="0" cellspacing="10"
+    cellpadding="0" width="600" bgcolor="\u0023f2f2f4" align="center">
+    <tbody>
+        <tr>
+            <td>
+                <table style="color: \u0023000000;" border="0" cellspacing="0" cellpadding="3" width="100%"
+                    bgcolor="\u0023396a87">
+                    <tbody>
+                        <tr>
+                            <td style="line-height: 1px; font-size: 1px;" height="1">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="border-bottom: \u0023dadbdd  1px  solid; border-left: \u0023dadbdd  1px  solid;
+                    padding-bottom: 10px; color: \u0023000000; border-top: 0px; border-right: \u0023dadbdd  1px  solid;"
+                    border="0" cellspacing="0" cellpadding="10" width="100%" bgcolor="white">
+                    <tbody>
+                        <tr style="border-bottom: \u0023dadbdd  1px  solid; color: \u0023333333;" bgcolor="\u0023f7f9fb">
+                            <td style="padding-bottom: 15px; padding-left: 25px; padding-right: 25px; padding-top: 0px;">
+                                <table style="padding-bottom: 10px; table-layout: fixed; color: \u0023333333;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img style="vertical-align: top; padding-top: 5px;"
+                                                    alt="company_logo" src="https://secure.trackyourtruck.com/TYTQuote/Content/Images/logo-email.png"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table style="width: 100%; color: \u0023333333;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <table style="padding-bottom: 20px; padding-right: 15px; color: \u0023333333;" border="0"
+                                                    cellspacing="0" cellpadding="0" align="left">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding-right: 15px; margin-right: 0px; border-right: \u0023dee6f2  2px  solid;"
+                                                                nowrap="">
+                                                                <p style="margin: 0px  0px  5px; color: \u0023516d88; font-size: 12px;" class="inv_headers">
+                                                                    QUOTE \u0023</p>
+                                                                <p style="margin: 0px; font-size: 18px;" class="inv_val">
+                                                                    #= QuoteId #</p>
+                                                            </td>
+                                                            <td style="padding-left: 15px; padding-right: 15px; margin-right: 0px;" nowrap="">
+                                                                <p style="margin: 0px  0px  5px; color: \u0023516d88; font-size: 12px;" class="inv_headers">
+                                                                    COMPANY NAME</p>
+                                                                <p style="margin: 0px; color: \u0023434343; font-size: 18px;" class="inv_val">
+                                                                    #= CompanyName #</p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table style="width: 115px; color: \u0023333333; float: right;" class="buttonwrapper"
+                                                    border="0" cellspacing="0" cellpadding="0" align="center">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="middle">
+                                                            </td>
+                                                            <td style="background-color: \u0023355dbe;" height="45" width="125" align="middle">
+                                                                <a rel="nofollow" style="text-align: center; line-height: 16px;
+                                                                    background-color: \u0023355dbe; display: inline-block;
+                                                                    letter-spacing: 0px; height: 15px; color: \u0023fff; font-size: 16px; vertical-align: bottom;
+                                                                    " class="buttonwrapper" href="#= Url #"
+                                                                    target="_blank">View quote</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 50px; padding-left: 25px; padding-right: 25px; font-family: helveticaneueroman, helvetica, arial, verdana, sans-serif;
+                                color: \u0023000000; font-size: 12px; padding-top: 20px;">
+                                <p>
+                                    Hello #= CustomerName #,<br />
+                                    <br />
+                                    Click the link above to view your Track Your Truck Vehicle Tracking Quote.<br />
+                                    Thank you for your interest - we appreciate it very much.<br />
+                                    <br />
+                                    Sincerely,<br />
+                                    Track Your Truck, Team</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="color: \u0023000000;" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td style="padding-bottom: 10px; padding-left: 0px; padding-right: 0px; padding-top: 10px;"
+                                align="left">
+                                <div style="float: left">
+                                    <a title="Facebook" id="facebook" class="social" href="https://www.facebook.com/pages/Track-Your-Truck-Inc/143541702345623" target="_blank"><img alt="Facebook" src="https://secure.trackyourtruck.com/TYTQuote/Content/Images/footer-fb.png" /></a>
+                                    <a title="Twitter" id="twitter" class="social" href="https://twitter.com/TrackYourTruck" target="_blank"><img alt="Twitter" src="https://secure.trackyourtruck.com/TYTQuote/Content/Images/footer-twitter.png" /></a>
+                                    
+                                </div>
+                            </td>
+                            <td style="padding-bottom: 10px; padding-left: 0px; padding-right: 0px; color: \u0023888888;
+                                font-size: 10px; padding-top: 10px;" align="right">
+                                <p style="margin-bottom: 0px;">
+                                    © Copyright #: new Date().getFullYear() # Track Your Truck.&nbsp; <a rel="nofollow" style="color: \u0023365ebf; text-decoration: none;"
+                                        href="//www.trackyourtruck.com/privacy-policy" target="_blank">Privacy</a>
+                                    | <a rel="nofollow" style="color: \u0023365ebf; text-decoration: none;" href="//www.trackyourtruck.com/terms-use"
+                                        target="_blank">Terms of Use</a></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="color: \u0023888888; font-size: 12px;">
+                                This quote from Track Your Truck, Inc. is valid for the specified days stated on the quote form.  Track Your Truck, Inc. accepts no liability for the content of this email. This quote is for commercial purposes only and is not a binding contract.  Track Your Truck, Inc. reserves the right to correct any and all mistakes that may have been inadvertently represented herein.
+                                You are receiving this email because you are on our mailing list. If you do not
+                                wish to receive information via email, please click here to <a target="_blank" href="#= UnsubscribeUrl #">
+                                    Unsubscribe</a>.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+    </body>
+</html>
+</script>

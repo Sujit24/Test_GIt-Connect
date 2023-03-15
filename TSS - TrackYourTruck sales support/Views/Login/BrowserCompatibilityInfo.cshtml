@@ -1,0 +1,97 @@
+﻿@using System.Configuration
+@model TSS.Models.Login
+@{
+    Layout = null;
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>GPS Vehicle Tracking Devices, GPS Vehicle Tracking Solutions</title>
+    <link href="@Url.Content("~/Content/style-v2.css")?@version" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/reset.css")?@version" rel="stylesheet" type="text/css"  />
+    <link href="@Url.Content("~/Content/footer.css")?@version" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/Libs/jquery/jquery-1.8.2.min.js")?@version" type="text/javascript" ></script>
+    @*<script src="@Url.Content("~/Scripts/combined.min.js")?@version" type="text/javascript"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#footer_trigger').live('click', function () {
+                $('#footer').children('li').removeClass('active');
+                $('.footer_dropup').hide();
+                $("#footer").slideToggle(400);
+                $('#footer_trigger').toggleClass("trigger_active");
+                return false;
+            });
+        });   
+    </script>
+    <style type="text/css">
+        .validation-summary-errors ul
+        {
+            list-style-type: none;
+        }
+        .validation-summary-errors ul li
+        {
+            color: Red;
+        }
+        .logonHeader
+        {
+            color: #FFFFFF;
+            font-family: Verdana;
+            font-size: 10pt;
+            font-weight: bold;
+        }
+        h1.page-title
+        {
+            color: #325F91;
+            font: 30px CalvertMTStdRegular,Rockwell,serif;
+            margin-bottom: 10px;
+        }
+        #retrieveLoginDiv div, span, p, input
+        {
+            padding: 5px;
+        }
+        
+        #dvBrowserNotSupportedMessage
+        {
+            font-size: 18px;
+            color: Black;
+            margin-left: 13%;
+            padding-top: 5%;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-header">
+        <div id="loginLogo">
+            <a href="//www.trackyourtruck.com/" target="_blank">
+                <img src="@ConfigurationManager.AppSettings["baseUrl"]/Content/images/TYTlogo1.png" alt="/" /></a>
+        </div>
+    </div>
+    <!--Header-End-->
+    
+        <div class="tab_content" id="dvBrowserNotSupportedMessage">
+            Your browser is not compatible with NetTrack 6.0, Please use <a style="color: Blue;
+                text-decoration: underline;" href="http://www.mozilla.org/en-US/firefox/fx/"
+                target="_blank">Mozilla</a> or <a style="color: Blue; text-decoration: underline;"
+                    href="https://support.google.com/chrome/answer/95346?hl=en" target="_blank">Chrome</a>.
+        </div>
+    
+    <!--MAIN-END-->
+    <!-- BEGIN FOOTER -->
+    <ul id="footer" class="footer_fullwidth">
+        <li id="links">
+            <!-- Begin footer links section (right) -->
+            <ul>
+                <li><a href="#">Help</a></li>
+                <li><a id="a_footer_Email" href="#">Email Us</a></li>
+                <li><a href="#">Terms Of Use</a></li>
+            </ul>
+            <!-- End section  -->
+        </li>
+    </ul>
+    <!-- END FOOTER -->
+    <!-- Trigger Button -->
+    <a id="footer_trigger" class="trigger_active" href="#"></a>
+</body>
+</html>

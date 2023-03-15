@@ -1,0 +1,63 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Quote">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="QuoteId" type="xs:int" minOccurs="0" />
+              <xs:element name="QuoteDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ContractTerm" type="xs:int" minOccurs="0" />
+              <xs:element name="ValidUntil" type="xs:int" minOccurs="0" />
+              <xs:element name="SalesPersonId" type="xs:int" minOccurs="0" />
+              <xs:element name="SalesPersonName" type="xs:string" minOccurs="0" />
+              <xs:element name="SalesPersonEmail" type="xs:string" minOccurs="0" />
+              <xs:element name="SalesPersonCellPhone" type="xs:string" minOccurs="0" />
+              <xs:element name="ZohoEntityId" type="xs:string" minOccurs="0" />
+              <xs:element name="ZohoEntityType" type="xs:string" minOccurs="0" />
+              <xs:element name="BillToCompanyName" type="xs:string" minOccurs="0" />
+              <xs:element name="BillToAddress1" type="xs:string" minOccurs="0" />
+              <xs:element name="BillToAddress2" type="xs:string" minOccurs="0" />
+              <xs:element name="BillToCityStateZip" type="xs:string" minOccurs="0" />
+              <xs:element name="BillToBillingContact" type="xs:string" minOccurs="0" />
+              <xs:element name="BillToBillingEmail" type="xs:string" minOccurs="0" />
+              <xs:element name="BillToPhone" type="xs:string" minOccurs="0" />
+              <xs:element name="ShipToCompanyName" type="xs:string" minOccurs="0" />
+              <xs:element name="ShipToAddress1" type="xs:string" minOccurs="0" />
+              <xs:element name="ShipToAddress2" type="xs:string" minOccurs="0" />
+              <xs:element name="ShipToCityStateZip" type="xs:string" minOccurs="0" />
+              <xs:element name="ShipToBillingContact" type="xs:string" minOccurs="0" />
+              <xs:element name="ShipToBillingEmail" type="xs:string" minOccurs="0" />
+              <xs:element name="ShipToPhone" type="xs:string" minOccurs="0" />
+              <xs:element name="ShippingAndHandling" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ShippingAndHandlingType" type="xs:string" minOccurs="0" />
+              <xs:element name="IsAccepted" type="xs:boolean" minOccurs="0" />
+              <xs:element name="AcceptanceName" type="xs:string" minOccurs="0" />
+              <xs:element name="AcceptanceDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SalesTax" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Note" type="xs:string" minOccurs="0" />
+              <xs:element name="PaymentMethodComment" type="xs:string" minOccurs="0" />
+              <xs:element name="OrderTypeTitle" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="OuoteProduct">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="QuoteProductId" type="xs:int" minOccurs="0" />
+              <xs:element name="QuoteId" type="xs:int" minOccurs="0" />
+              <xs:element name="ProductId" type="xs:int" minOccurs="0" />
+              <xs:element name="Quantity" type="xs:int" minOccurs="0" />
+              <xs:element name="Price" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PackageId" type="xs:int" minOccurs="0" />
+              <xs:element name="ProductCategory" type="xs:string" minOccurs="0" />
+              <xs:element name="SKU" type="xs:string" minOccurs="0" />
+              <xs:element name="ProductDescription" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

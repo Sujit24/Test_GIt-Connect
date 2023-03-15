@@ -1,0 +1,659 @@
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+}
+<script src="@Url.Content("~/scripts/SalesOrder/UserView.js")?@version" type="text/javascript"></script>
+<style>
+    .tbl-content
+    {
+        margin-left: 135px;
+        text-align: justify;
+    }
+    .tbl-lbl
+    {
+        text-align: right;
+        width: 125px;
+        text-decoration: underline;
+    }
+</style>
+<div class="container-fluid">
+    <h2>
+        Your Order Detail</h2>
+    <hr style="margin-top: -5px; border-color: yellowgreen;">
+    <div class="row">
+        @*<div class="col-md-2"></div>*@
+        <div class="col-md-8 main-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Order Type:
+                            </label><span id="spnOrderType"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Order Status:</label><span id="orderStatus"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Method of Payment:</label><span id="paymentType"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Order Number:</label><span id="orderNumber" style="display: none"></span><span id="refQuoteNumber"></span>
+                            <input type="hidden" id="quoteOrderId" value="@ViewBag.QuoteOrderId" />
+                            <input type="hidden" id="quoteId" />
+                            <input type="hidden" id="clientId" value="" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Purchase Date:</label><span id="quoteDate"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Contract Term:</label><span id="contractTerm"></span> <span id="contractTermLabel">Months</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>
+                                Valid <span id="validUntil"></span>&nbsp;days from Quote Date</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Sales Person:</label><span id="salesPerson"></span> <span style="display: none" id="salesPersonId">
+                                </span><span style="display: none" id="ZohoEntityId"></span><span style="display: none"
+                                    id="ZohoEntityType"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="label-width">
+                        Sales Person Email:</label><span id="salesPersonEmail"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-width">
+                        Sales Person Phone:</label><span id="salesPersonCell"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                NetTrack Client:</label><span id="netTrackClient"></span>
+                        </div>
+                    </div>
+                </div>
+                <div id="rowNettrackStatus" class="col-md-6" style="display: none">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                NetTrack Status:</label><span id="nettrackStatus"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>
+                                Bill to Info</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Company Name:</label><span id="billCompanyName"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Address 1:</label><span id="billAddress1"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Address 2:</label><span id="billAddress2"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                City, State, Zip:</label><span id="billCityStateZip"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Country:</label><span id="billCountry"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Billing Contact:</label><span id="billContact"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Billing Email:</label><span id="billEmail"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Phone#:</label><span id="billPhone"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>
+                                Ship to Info</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Company Name:</label><span id="shipCompanyName"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Address 1:</label><span id="shipAddress1"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Address 2:</label><span id="shipAddress2"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                City, State, Zip:</label><span id="shipCityStateZip"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Country:</label><span id="shipCountry"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Ship to Contact:</label><span id="shipContact"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Ship to Email:</label><span id="shipEmail"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Phone#:</label><span id="shipPhone"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="divAdminNote">
+                <div class="col-md-11">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="label-width">
+                                Note:</label><span id="txtAdminNote" style="width: 200px; font-size: small"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-11">
+                    <div id="divNote" class="pull-left" style="margin-top: 5px; display: none">
+                        <span style="font-size: large; font-weight: bold;">Buyer Comments: </span>&nbsp;&nbsp;<span id="txtNote"></span>
+                    </div>
+                    <div class="pull-right">
+                        <a role="button" class="btn btn-primary" href="@ViewBag.SalesOrderPDF">Printable Version</a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-11">
+                    <div id="productContainer">
+                        <div id="productContent">
+                            <script type="text/x-kendo-template" id="productTemplate">
+                                <div class="Package" style="border: 1px solid gainsboro;">
+                                    <div style="margin-left: 5px; margin-right: 5px">
+                                        <h2 style="background-color: rgb(238, 238, 238); margin: 0px -5px; padding: 0px 5px;" class="PackageId" data-maxproductqty="1" data-packageid="#: ProductIndex #">
+                                            Product #: ProductIndex #</h2>
+                                        <div class="product" product-index="#: ProductIndex + 1 #">
+                                            <hr style="margin-top: 0px; margin-bottom: 0px">
+                                            <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                Hardware</h1>
+                                            <div style="text-align: right; line-height: 0px">
+                                                &nbsp;
+                                            </div>
+                                            <div style="margin-bottom: 10px; margin-top: 0px">
+                                                <b>Hardware</b>
+                                                <table class="productTable" Product-Category="Hardware" style="width: 100%;">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                            Quantity
+                                                        </th>
+                                                        <th style="width: 100px">
+                                                            SKU
+                                                        </th>
+                                                        <th>
+                                                            Hardware Description
+                                                        </th>
+                                                        <th style="width: 100px; text-align:right;">
+                                                            <span style="padding-right:20px">Price</span>
+                                                        </th>
+                                                        <th style="width: 125px">
+                                                            Extended Price
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                                <table class="totalTable" style="width: 100%;">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                        </th>
+                                                        <th style="width: 150px">
+                                                        </th>
+                                                        <th style="text-align: right;">
+                                                            Total Hardware:
+                                                        </th>
+                                                        <th style="width: 140px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 20px; text-align: right;">
+                                                            <span class="unit-product-total">$0.00</span>
+                                                        </th>
+                                                        <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                            <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="product" product-index="#: ProductIndex + 2 #">
+                                            <hr style="margin-top: 0px; margin-bottom: 0px">
+                                            <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                Monthly</h1>
+                                            <div style="text-align: right; line-height: 0px">
+                                                &nbsp;
+                                            </div>
+                                            <div style="margin-bottom: 10px; margin-top: 0px">
+                                                <b>Monthly</b>
+                                                <table class="productTable" Product-Category="Monthly" style="width: 100%;">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                            Quantity
+                                                        </th>
+                                                        <th style="width: 100px">
+                                                            SKU
+                                                        </th>
+                                                        <th>
+                                                            Monthly Description
+                                                        </th>
+                                                        <th style="width: 100px; text-align:right;">
+                                                            <span style="padding-right:20px">Price</span>
+                                                        </th>
+                                                        <th style="width: 125px">
+                                                            Extended Price
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                                <table class="totalTable" style="width: 100%;">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                        </th>
+                                                        <th style="width: 150px">
+                                                        </th>
+                                                        <th style="text-align: right;">
+                                                            Total Monthly:
+                                                        </th>
+                                                        <th style="width: 140px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 20px; text-align: right;">
+                                                            <span class="unit-product-total">$0.00</span>
+                                                        </th>
+                                                        <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                            <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="product" product-index="#: ProductIndex + 3 #">
+                                            <hr style="margin-top: 0px; margin-bottom: 0px">
+                                            <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                Optional</h1>
+                                            <div style="text-align: right; line-height: 0px">
+                                                &nbsp;
+                                            </div>
+                                            <div style="margin-bottom: 10px; margin-top: 0px">
+                                                <b>Optional</b>
+                                                <table class="productTable" Product-Category="Optional" style="width: 100%;">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                            Quantity
+                                                        </th>
+                                                        <th style="width: 100px">
+                                                            SKU
+                                                        </th>
+                                                        <th>
+                                                            Optional Description
+                                                        </th>
+                                                        <th style="width: 100px; text-align:right;">
+                                                            <span style="padding-right:20px">Price</span>
+                                                        </th>
+                                                        <th style="width: 125px">
+                                                            Extended Price
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                                <table class="totalTable" style="width: 100%;">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                        </th>
+                                                        <th style="width: 150px">
+                                                        </th>
+                                                        <th style="text-align: right;">
+                                                            Total Optional:
+                                                        </th>
+                                                        <th style="width: 140px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 20px; text-align: right;">
+                                                            <span class="unit-product-total">$0.00</span>
+                                                        </th>
+                                                        <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                            <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="product" product-index="#: ProductIndex + 4 #">
+                                            <hr style="margin-top: 0px; margin-bottom: 0px">
+                                            <h1 style="display: none; margin-bottom: -38px; font-size: 16px">
+                                                Misc Fee</h1>
+                                            <div style="text-align: right; line-height: 0px">
+                                                &nbsp;
+                                            </div>
+                                            <div style="margin-bottom: 10px; margin-top: 0px">
+                                                <b>Misc Fee</b>
+                                                <table class="productTable" Product-Category="Misc Fee" style="width: 100%;">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                            Quantity
+                                                        </th>
+                                                        <th style="width: 100px">
+                                                            SKU
+                                                        </th>
+                                                        <th>
+                                                            Misc Fee Description
+                                                        </th>
+                                                        <th style="width: 100px; text-align:right;">
+                                                            <span style="padding-right:20px">Price</span>
+                                                        </th>
+                                                        <th style="width: 125px">
+                                                            Extended Price
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                                <table class="totalTable" style="width: 100%;">
+                                                    <tr>
+                                                        <th style="width: 80px; text-align: center;">
+                                                        </th>
+                                                        <th style="width: 150px">
+                                                        </th>
+                                                        <th style="text-align: right;">
+                                                            Total Misc Fee:
+                                                        </th>
+                                                        <th style="width: 140px; border-collapse: collapse; border-top: 1px solid black;
+                                                            padding-right: 20px; text-align: right;">
+                                                            <span class="unit-product-total">$0.00</span>
+                                                        </th>
+                                                        <th style="width: 125px; text-align: right; border-collapse: collapse; border-top: 1px solid black;">
+                                                            <span style="padding-right: 40px" class="product-total">$0.00</span>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div style="display:none">
+                                            <hr style="margin-bottom: -10px; margin-top: 0px;" />
+                                            <div style='line-height: 0px'>&nbsp;</div>
+                                            <table style="width: 100%" style="width: 100%;">
+                                                <tr>
+                                                    <td style="width: 80px; text-align: center;">
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td style="width: 160px; text-align: right; padding-right: 30px;">
+                                                        <b>Product Total Price:</b>
+                                                    </td>
+                                                    <td style="width: 125px; text-align: right;">
+                                                        <b><span style="padding-right: 40px" class="product-summary">$0.00</span></b>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                            </script>
+                        </div>
+                        <div style="">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td colspan="2">
+                                            <b>Shipping Method:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="sShippingMethod"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Total Shipping and Handling:</b>
+                                        </td>
+                                        <td style="text-align: right">
+                                            $<span id="shippingAndHandling" style=""></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <b style="text-decoration: underline;">Summary:</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Hardware Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalHardwareFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Sales Tax Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalSalesTaxFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Monthly Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalMonthlyFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Optional Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalOptionalFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Misc Fees:
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalMiscFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Shipping and Handling:&nbsp;&nbsp;
+                                        </td>
+                                        <td style="text-align: right">
+                                            <span id="totalShippingAndHandlingFees">$0.00</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br />
+                                <b style="color: Red">* This order includes Hardware, Sales Tax, Misc Fees Fees; Shipping
+                                    and Handling. Customs and duties fees for Canada and Mexico are NOT covered by TYT and will be paid by the customer. Total charged: $<span style="color: Red" id="totalCharged"></span>.</b>
+                            </div>
+                            <br />
+                            <div class="">
+                                <div class="">
+                                    <b>Terms and Conditions</b>
+                                    <div class="clearfix">
+                                        <div class="pull-left tbl-lbl">
+                                        </div>
+                                        <div class="tbl-content">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="pull-left tbl-lbl">
+                                            Other Services:
+                                        </div>
+                                        <div class="tbl-content">
+                                            Taxes and fees where applicable are extra.
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="pull-left tbl-lbl">
+                                            Term of Service:
+                                        </div>
+                                        <div class="tbl-content">
+                                            The Term of Service is identified above under “Contract Term" and shall begin as
+                                            of the sign date of this Order Form. Service will continue month-to-month after
+                                            original service term expires or until service is cancelled.
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="pull-left tbl-lbl">
+                                            Payment Terms:
+                                        </div>
+                                        <div class="tbl-content">
+                                            Unless otherwise stated, TYT will charge the customer’s credit card for monthly
+                                            or quarterly service fees and an invoice will be emailed to the billing email.
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="pull-left tbl-lbl">
+                                            Order Form Terms:
+                                        </div>
+                                        <div class="tbl-content">
+                                            Product and Services Terms. This Order Form is subject to and incorporates by reference
+                                            the terms and conditions of the Track Your Truck Service Agreement (the "Agreement")
+                                            available at the following uniform resource locator: <a style="font-weight: bold"
+                                                href="http://support.trackyourtruck.com/sa_v4">EULA</a>. All terms
+                                            used herein have the same meaning as stated in the Agreement, unless stated otherwise.
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div id="divAcceptance" style="text-align: justify">
+                                    <input id="chkAcceptance" type="checkbox" style="vertical-align: sub;" />
+                                    <span style="text-decoration: underline"><a style="font-weight: bold" href="http://support.trackyourtruck.com/sa_v4">
+                                        Acceptance</a>:</span> By accepting this order form and electronically signing
+                                    via typing your name, signing party represents and warrants that (i) it has read
+                                    and understands the applicable Agreement that is incorporated by reference herein
+                                    and agrees to be bound by its terms, and (ii) it has full power and authority to
+                                    accept these Order Form Terms and Conditions.
+                                </div>
+                                <br />
+                                <div>
+                                    <div>
+                                        <b style="padding-right: 32px; vertical-align: text-bottom;">Name:</b><span id="lblAcceptanceName"
+                                            style="font-size: large;"></span></div>
+                                    <br />
+                                    <div>
+                                        <b>Date/Time:</b> <span id="lblAcceptanceDateTime"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        @*&nbsp;
+                        <div style="width: 100%">
+                            <div style="float: right">
+                                <a role="button" class="btn btn-primary" onclick="Save();">Purchase Now</a>
+                            </div>
+                        </div>*@
+                        <br />
+                        &nbsp;
+                        <br />
+                        &nbsp;
+                        <br />
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-md-2"></div>*@
+    </div>
+</div>

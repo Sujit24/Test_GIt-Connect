@@ -1,0 +1,45 @@
+﻿
+@media screen and (min-width: 800px)
+{
+    #zuhu-modal-wrapper #confirmHardwareModal
+    {
+        left: 50%;
+        margin: -375px 0 0 -375px !important;
+        width: 750px !important;
+    }
+    
+    #zuhu-modal-wrapper #viewConfirmModal
+    {
+        left: 50%;
+        margin: -200px 0 0 -200px !important;
+        width: 400px !important;
+    }
+    
+    #zuhu-modal-wrapper #convertToOrderModal
+    {
+        left: 50%;
+        margin: -250px 0 0 -250px !important;
+        width: 500px !important;
+    }
+    
+    #zuhu-modal-wrapper #confirmHardwareModal .image-td-width
+    {
+        width: 210px;
+        display: block;
+    }
+    
+    #zuhu-modal-wrapper #confirmHardwareModal .image-max-width
+    {
+        max-width: 200px;
+    }
+    
+    .login-header-height
+    {
+        height: 70px !important;
+    }
+    
+    .logo-height
+    {
+        height: 60px !important;
+    }
+}

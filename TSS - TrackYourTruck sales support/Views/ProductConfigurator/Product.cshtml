@@ -1,0 +1,216 @@
+﻿@model TSS.Models.ViewModel.ProductViewModel
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("Save", "ProductConfigurator", FormMethod.Post, new { id = "mainForm", name = "mainForm", enctype = "multipart/form-data" }))
+{
+    <div id="content-inner">
+        <div class="container-fluid">
+            <div class="contentHolder">
+                <div class="row-fluid">
+                    <div class="span12">
+                        @Html.HiddenFor(e => e.ProductId)
+                        @Html.HiddenFor(e => e.ProductImageFileName)
+                        <table cellspacing="0" style="width: 100%" id="pageHeader">
+                            <tbody>
+                                <tr>
+                                    <td class="propertyPageHeader">
+                                        Product Properties
+                                        <br>
+                                    </td>
+                                    <td align="center">
+                                        <label id="lblWarning" runat="server" style="color: Red;" />
+                                    </td>
+                                    <td>
+                                        <div style="float: right; margin-top: 2px;">
+                                            <input class="btn btn-success" type="submit" value="Save As New" onclick="javascript:return ValidateProductForSaveAsNew();" />&nbsp;
+                                            <input class="btn btn-success" type="submit" value="Save" onclick="javascript:return ValidateProduct();" />&nbsp;
+                                            <input class="btn btn-danger" type="button" onclick="javascript:RemoveProduct(@Model.ProductId);" value="Delete" />&nbsp;
+                                            <input class="btn btn-warning" type="button" value="Cancel" id="btnCancel" onclick="javascript:CancelDetialView();" />&nbsp;&nbsp;
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="divIndividualItem">
+                            <table style="width: 100%">
+                                <tbody>
+                                    <tr>
+                                        <td valign="top">
+                                            <fieldset id="box1">
+                                                <div class="settingsGroupMargin">
+                                                    <table style="width: 100%;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width: 10%">
+                                                                    Product Type:
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DropDownListFor(e => e.ProductTypeId, new SelectList(Model.ProductTypeList, "keyfield", "value"), new { @class = "dropdown" })
+                                                                    <span style="margin-left: 50px; margin-right: 20px">SKU:</span>
+                                                                    @Html.TextBoxFor(e => e.SKU, new { @class = "inplaceedit" })<span style="color: Red">
+                                                                        *</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="discountProductType" style="display: none">
+                                                                <td style="width: 10%">
+                                                                    <span style="vertical-align: super;">Discount Product Type:</span>
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DropDownListFor(e => e.DiscountProductTypeId, new SelectList(Model.ProductTypeList.Where(w => w.value != "Discount"), "keyfield", "value"), new { @class = "dropdown" })
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    Product Name:
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(model => model.ProductName, new { @class = "inplaceedit", style = "width: 40%" })<span
+                                                                        style="color: Red"> *</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    Product Description:
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(model => model.ProductDescription, new { @class = "inplaceedit", style = "width: 70%" })<span
+                                                                        style="color: Red"> *</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    Weight:
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(model => model.Weight, new { @class = "inplaceedit" })<span style="color: Red">
+                                                                        *</span>(lbs.)
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    Price:
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(model => model.Price, new { @class = "inplaceedit" })<span style="color: Red">
+                                                                        *</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="extraHardwareInfo1">
+                                                                <td>
+                                                                    Carrier:
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DropDownListFor(e => e.Carrier, new SelectList(Model.CarrierList, "keyfield", "value"), new { @class = "dropdown" })
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="extraHardwareInfo2">
+                                                                <td style="vertical-align: top">
+                                                                    Notes:
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextAreaFor(e => e.Notes, new { @class = "inplaceedit", style = "width: 70%" })
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="extraHardwareInfo3">
+                                                                <td>
+                                                                    Hardware Image:
+                                                                </td>
+                                                                <td>
+                                                                    <input type="file" name="HardwareImageUpload" id="HardwareImageUpload" style="width: 70%" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="extraHardwareInfo4">
+                                                                <td>
+                                                                    &nbsp;
+                                                                </td>
+                                                                <td>
+                                                                    <div>
+                                                                        @if (!string.IsNullOrWhiteSpace(Model.ProductImageFileName))
+                                                                        { 
+                                                                            <img style="max-width:400px" src="@Url.Content("~/Content/ProductImage/" + Model.ProductImageFileName)" alt="" />
+                                                                        }
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </fieldset>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("option[value=6]").text("Optional");
+
+            if ($("#ProductTypeId option:selected").text() == "Discount") {
+                $("#discountProductType").show();
+            } else {
+                $("#DiscountProductTypeId").val($("#ProductTypeId").val());
+            }
+
+            if ($("#ProductTypeId option:selected").text() == "Hardware") {
+                $("#extraHardwareInfo1").show();
+                $("#extraHardwareInfo2").show();
+                $("#extraHardwareInfo3").show();
+                $("#extraHardwareInfo4").show();
+            } else {
+                $("#extraHardwareInfo1").hide();
+                $("#extraHardwareInfo2").hide();
+                $("#extraHardwareInfo3").hide();
+                $("#extraHardwareInfo4").hide();
+            }
+
+            $("#ProductTypeId").change(function () {
+                if ($("#ProductTypeId option:selected").text() == "Hardware") {
+                    $("#extraHardwareInfo1").show();
+                    $("#extraHardwareInfo2").show();
+                    $("#extraHardwareInfo3").show();
+                    $("#extraHardwareInfo4").show();
+                } else {
+                    $("#extraHardwareInfo1").hide();
+                    $("#extraHardwareInfo2").hide();
+                    $("#extraHardwareInfo3").hide();
+                    $("#extraHardwareInfo4").hide();
+                }
+
+                if ($("#ProductTypeId option:selected").text() == "Discount") {
+                    $("#discountProductType").show();
+                } else {
+                    $("#discountProductType").hide();
+                    $("#DiscountProductTypeId").val($("#ProductTypeId").val());
+                }
+            });
+
+            $("#mainForm").ajaxForm({
+                beforeSubmit: function (formData, jqForm, options) {
+                    //alert('beforeSubmit');
+                },
+                success: function (result, statusText) {
+                    if (result.Message == "Successfully Saved.") {
+                        LoadDetailView(parseInt(result.PrimaryKey), function () { $('#lblWarning').text(result.Message) });
+
+                        if ($("#divKendoGrid").data("kendoGrid")) {
+                            $("#divKendoGrid").data("kendoGrid").dataSource.read();
+                        }
+
+                    }
+                    else {
+                        $('#lblWarning').text(result.Message)
+                    }
+                },
+                error: function () {
+                }
+            });
+        });
+    </script>
+}

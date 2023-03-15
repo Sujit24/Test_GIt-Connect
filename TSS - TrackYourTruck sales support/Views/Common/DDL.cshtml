@@ -1,0 +1,5 @@
+﻿@model TSS.Models.ViewModel.DDLViewModel
+@{
+    Layout = null;
+    }
+@Html.DropDownListFor(m => m.SelVal, new SelectList(Model.List, "keyfield", "value"))

@@ -1,0 +1,89 @@
+﻿@{
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+    ViewBag.Title = "TSS - TrackYourTruck sales support";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/SalesTax/Index.js")?@version" type="text/javascript"></script>
+<style type="text/css">
+    .active, .top-nav ul li a:active, .top-nav ul li a:hover
+    {
+        background-color: none !important;
+    }
+    
+    #divKendoGrid th.k-header:nth-child(4)
+    {
+        text-align: right;
+    }
+    
+    #divKendoGrid th.k-header:nth-child(3)
+    {
+        text-align: center;
+    }
+    
+    #divKendoGrid tr td:nth-child(3)
+    {
+        text-align: center;
+    }
+</style>
+<div class="content-inner">
+    <div class="container-fluid">
+        <div class="contentHolder">
+            <div class="row-fluid">
+                <div class="span12">
+                    <br>
+                    <h2>
+                        Sales Tax</h2>
+                    <hr style="border-color: yellowgreen;">
+                    <div class="contentHolder">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <div>
+                                    <span style="vertical-align: super; margin-right: 9px">Country: </span>
+                                    <select id="country" style="width: 250px">
+                                        <option value="CA">Canada</option>
+                                        <option value="MX">Mexico</option>
+                                        <option selected="selected" value="US">United States</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span style="vertical-align: super; margin-right: 25px">State: </span>
+                                    <select id="state" style="width: 250px">
+                                    </select>
+                                    <a role="button" id="btnAddState" style="vertical-align: super" class="btn btn-info">
+                                        + </a>
+                                </div>
+                                <div style="margin-left: 58px; margin-bottom: 5px">
+                                    <ul id="ulNavsStates">
+                                    </ul>
+                                </div>
+                                <div>
+                                    <span style="vertical-align: super; margin-right: 2px">Tax Rate: </span>&nbsp;
+                                    <input type="text" style="width: 50px" maxlength="6" id="txtTaxRate" value="0.00" /><span
+                                        style="vertical-align: super; margin-right: 80px"> %</span>
+                                </div>
+                                <div>
+                                    <span style="margin-left: 58px"></span>
+                                    <input type="button" id="btnUpdateTaxRate" style="vertical-align: super" class="btn btn-primary"
+                                        value="Update" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px">
+                    </div>
+                    <div style="margin-bottom: 10px">
+                    </div>
+                    <div style="width: 750px">
+                        <div id="divKendoGrid">
+                        </div>
+                        <div id="pager">
+                        </div>
+                    </div>
+                    <script id="taxrate-template" type="text/x-kendo-template">
+                        <div style="text-align:right">#= kendo.toString(TaxRate, "0.00") # % </div>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

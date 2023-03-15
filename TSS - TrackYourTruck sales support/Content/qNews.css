@@ -1,0 +1,40 @@
+﻿html, #content
+{
+    background: none repeat scroll 0 0 #C9D8E6;
+}
+.qnHeader, .qnBack
+{
+    background: none repeat scroll 0 0 #C9D8E6;
+    margin-left: 20px;
+}
+.qnHeader
+{
+    font-family: Verdana;
+    font-size: 18px;
+    line-height: 36px;
+}
+.qnBack
+{
+    margin-top: 5px;
+    font-family: Verdana;
+    font-size: 12px;
+}
+    
+.qnMainContent
+{
+    background-color: #EEF7F8;
+    border-radius: 4px 4px 4px 4px;
+    width: 99%;
+}
+.qnTitle
+{
+    font-family: verdana;
+    font-weight: bold;
+    padding-top: 5px;
+}
+.qnContent, .qnTitle
+{
+    margin-left: 3px;
+    text-align: left;
+    margin: 5px;
+}

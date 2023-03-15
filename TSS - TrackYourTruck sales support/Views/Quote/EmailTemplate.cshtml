@@ -1,0 +1,105 @@
+﻿@model TSS.Models.ViewModel.MailViewModel
+<html><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>TSS Email</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <style type="text/css">
+        .social
+        {
+            display: block;
+            float: left;
+            height: 30px;
+            margin: 0 10px 0 0;
+            width: 30px;
+        }
+    </style>
+</head>
+<body>
+    <table width="600" cellspacing="10" cellpadding="0" border="0" bgcolor="#f2f2f4"
+        align="center" class="content" style="margin: 0px  auto; color: #000000;">
+        <tbody>
+            <tr>
+                <td>
+                    <table width="100%" cellspacing="0" cellpadding="3" border="0" bgcolor="#396a87"
+                        style="color: #000000;">
+                        <tbody>
+                            <tr>
+                                <td height="1" style="line-height: 1px; font-size: 1px;">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="100%" cellspacing="0" cellpadding="10" border="0" bgcolor="white" style="border-bottom: #dadbdd  1px  solid;
+                        border-left: #dadbdd  1px  solid; padding-bottom: 10px; color: #000000; border-top: 0px;
+                        border-right: #dadbdd  1px  solid;">
+                        <tbody>
+                            <tr bgcolor="#f7f9fb" style="border-bottom: #dadbdd  1px  solid; color: #333333;">
+                                <td style="padding-bottom: 15px; padding-left: 25px; padding-right: 25px; padding-top: 0px;">
+                                    <table style="padding-bottom: 10px; table-layout: fixed; color: #333333;">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <img src="https://secure.trackyourtruck.com/TYTQuote/Content/Images/logo-email.png"
+                                                        alt="company_logo" style="vertical-align: top; padding-top: 5px;">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-bottom: 50px; padding-left: 25px; padding-right: 25px; font-family: helveticaneueroman, helvetica, arial, verdana, sans-serif;
+                                    color: #000000; font-size: 12px; padding-top: 20px;">
+                                    <p>
+                                        Hello @Model.CustomerName,<br>
+                                        <br>
+                                        @Model.Body<br>
+                                        <br>
+                                        Sincerely,<br>
+                                        Track Your Truck, Team</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="100%" border="0" style="color: #000000;">
+                        <tbody>
+                            <tr>
+                                <td align="left" style="padding-bottom: 10px; padding-left: 0px; padding-right: 0px;
+                                    padding-top: 10px;">
+                                    <div style="float: left">
+                                        <a target="_blank" href="https://www.facebook.com/pages/Track-Your-Truck-Inc/143541702345623"
+                                            class="social" id="facebook" title="Facebook">
+                                            <img alt="Facebook" src="https://secure.trackyourtruck.com/TYTQuote/Content/Images/footer-fb.png"
+                                                kasperskylab_antibanner="on"></a> <a target="_blank" href="https://twitter.com/TrackYourTruck"
+                                                    class="social" id="twitter" title="Twitter">
+                                                    <img alt="Twitter" src="https://secure.trackyourtruck.com/TYTQuote/Content/Images/footer-twitter.png"
+                                                        kasperskylab_antibanner="on"></a> 
+                                    </div>
+                                </td>
+                                <td align="right" style="padding-bottom: 10px; padding-left: 0px; padding-right: 0px;
+                                    color: #888888; font-size: 10px; padding-top: 10px;">
+                                    <p style="margin-bottom: 0px;">
+                                        &copy; Copyright @DateTime.Now.Year Track Your Truck.&nbsp; <a target="_blank" href="//www.trackyourtruck.com/privacy-policy"
+                                            style="color: #365ebf; text-decoration: none;" rel="nofollow">Privacy</a> |
+                                        <a target="_blank" href="//www.trackyourtruck.com/terms-use" style="color: #365ebf;
+                                            text-decoration: none;" rel="nofollow">Terms of Use</a></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color: #888888; font-size: 12px;" colspan="2">
+                                    This quote from Track Your Truck, Inc. is valid for the specified days stated on the quote form.  Track Your Truck, Inc. accepts no liability for the content of this email. This quote is for commercial purposes only and is not a binding contract.  Track Your Truck, Inc. reserves the right to correct any and all mistakes that may have been inadvertently represented herein. You are receiving this email because you are on our mailing list. If you do not
+                                    wish to receive information via email, please click here to <a href="https://secure.trackyourtruck.com/tytquote/Quote/Unsubscribe/2538"
+                                        target="_blank">Unsubscribe</a>.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="sceditor-nlf">
+        <br>
+    </p>
+</body>
+</html>

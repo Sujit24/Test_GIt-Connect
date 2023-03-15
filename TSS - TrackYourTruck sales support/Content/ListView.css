@@ -1,0 +1,96 @@
+.search-area
+{
+    width: 100%;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+}
+
+.label
+{
+    float: left;
+    margin-left: 2px;
+    width: 100px;
+    color: #000000;
+    font-family: 'Trebuchet MS' ,Arial, 'Liberation Sans' ,FreeSans,sans-serif;
+    font-size: 12px;
+    height: 1.8em;
+}
+.checkbox
+{
+    font-family: 'Trebuchet MS' ,Arial, 'Liberation Sans' ,FreeSans,sans-serif;
+    font-size: 12px;
+    color: #000000;
+    height: 1.8em;
+}
+
+.textbox
+{
+    margin: 5px;
+}
+.button
+{
+    margin: 5px;
+}
+.page-title
+{
+    background: none repeat scroll 0 0 #F4F4F4;
+}
+.page-title
+{
+    background: none repeat scroll 0 0 #F4F4F4;
+    border-radius: 4px 4px 4px 4px;
+    font-family: 'Trebuchet MS' , 'Segoe UI' , 'Lucida Sans Unicode' ,Verdana,Arial,sans-serif;
+    font-weight: normal;
+    margin-bottom: 10px;
+    padding: 1px 10px;
+}
+
+input, textarea
+{
+    outline: medium none;
+}
+input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="time"], textarea:not(.editor)
+{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    -moz-box-sizing: border-box;
+    background-clip: padding-box;
+    background-color: #FFFFFF;
+    border-color: #848484 #C1C1C1 #E1E1E1;
+    border-image: none;
+    border-radius: 0 0 0 0;
+    border-style: solid;
+    border-width: 1px;
+    color: #000000;
+    font-family: 'Trebuchet MS' ,Arial, 'Liberation Sans' ,FreeSans,sans-serif;
+    font-size: 12px;
+    height: 1.8em;
+    outline: 0 none;
+    padding: 2px 3px;
+}
+input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type="time"]:focus, textarea:focus:not(.editor)
+{
+    -moz-transition: all 0.1s ease-in-out 0s;
+    border: 1px solid #5695DB;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.22) inset, 0 0 7px rgba(86, 149, 219, 0.69);
+}
+
+button, input[type="reset"], input[type="submit"], input[type="button"]
+{
+    background: -moz-linear-gradient(center top , #29A1B3 0%, #0D8B9B 100%) repeat scroll 0 0 transparent;
+    border: 1px solid #0D717E;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-shadow: 0 1px 1px #555555;
+}
+button:hover, input[type="reset"]:hover, input[type="submit"]:hover, input[type="button"]:hover
+{
+    background: -moz-linear-gradient(center top , #4BC9DE 0%, #0D8B9B 100%) repeat scroll 0 0 transparent;
+}
+
+#searchForm  .control-group {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

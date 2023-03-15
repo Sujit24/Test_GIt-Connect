@@ -1,0 +1,61 @@
+﻿@{
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+    ViewBag.Title = "TSS - TrackYourTruck sales support";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/SalesPerson/Index.js")?@version" type="text/javascript"></script>
+<style type="text/css">
+    .active, .top-nav ul li a:active, .top-nav ul li a:hover
+    {
+        background-color: none !important;
+    }
+</style>
+<div class="content-inner">
+    <div class="container-fluid">
+        <div class="contentHolder">
+            <div class="row-fluid">
+                <div class="span12">
+                    <br>
+                    <h2>
+                        Sales Person</h2>
+                    <hr style="border-color: yellowgreen;">
+                    <div class="contentHolder">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <span style="vertical-align: super; margin-right: 2px">Name: </span>&nbsp;
+                                <input type="text" style="width: 380px" maxlength="6" id="txtName" value="" />
+                                &nbsp;&nbsp;
+                                <input type="button" id="btnSearch" style="vertical-align: top" class="btn btn-info"
+                                    value="Search" />
+                                <input type="button" class="btn btn-warning" style="vertical-align: top" id="btnResetSearch" value="Clear" />
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px">
+                    </div>
+                    <div style="margin-bottom: 10px">
+                    </div>
+                    <div style="width: 90%">
+                        <center>
+                            <div id="divMessage" style="display: none">
+                            </div>
+                        </center>
+                        <div id="divKendoGrid">
+                        </div>
+                        <div id="pager">
+                        </div>
+                    </div>
+                    <script id="sales-person-template" type="text/x-kendo-template">
+                        <center>
+                            #if(IsSalesPerson){#
+                                <input class='sales-person' type='checkbox' data-name='#=Name#' value='#=EmployeeId#' onClick='SetSalesPerson(this)' checked='checked' />
+                            #}else{#
+                                <input class='sales-person' type='checkbox' data-name='#=Name#' value='#=EmployeeId#' onClick='SetSalesPerson(this)' />
+                            #}#
+                        </center>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

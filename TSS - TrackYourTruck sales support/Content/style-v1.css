@@ -1,0 +1,280 @@
+﻿html, body
+{
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+.ui-widget
+{
+	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+	font-size: 0.8em;
+}
+.ui-menu
+{
+	list-style: none;
+	padding: 0px; /*padding: 2px;*/
+	margin: 0;
+	display: block;
+	float: left;
+}
+.ui-menu .ui-menu-item a
+{
+	text-decoration: none;
+	display: block;
+	padding: .2em .4em;
+	line-height: 1.0; /*line-height:1.5;*/
+	zoom: 1;
+}
+.ui-autocomplete
+{
+	height: 92px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#tab1 a
+{
+	color: blue;
+	text-decoration: underline;
+}
+#infotext
+{
+	font-family: Verdana;
+	font-size: 11px; /*width: 310px;     height: 367px;*/
+}
+.tabs
+{
+	/*width: 300px;     height: 365px;*/ /*height: 430px;*/
+	font-family: Verdana;
+	font-size: 11px;
+	text-align: left;
+}
+.ui-tabs .ui-tabs-panel
+{
+	padding: 0.2em;
+}
+.lblStatus
+{
+	text-align: left;
+	padding-left: 6px;
+	font-family: Calibri;
+	font-size: 13px;
+	font-weight: bold;
+	/*margin: 2px 0px;
+	color: black;*/
+	background: url("../Content/images/Gridheader_bg.jpg") repeat-x scroll left top transparent;
+	height: 19px;
+	margin: 0px;
+	color: white;
+}
+
+/* Modal div styles start */
+.modalBody
+{
+	background: #b6b7bc;
+	font-size: .80em;
+	font-family: "Helvetica Neue" , "Lucida Grande" , "Segoe UI" , Arial, Helvetica, Verdana, sans-serif;
+	margin: 0px;
+	padding: 0px;
+	color: #696969;
+}
+
+.modalDiv
+{
+	position: absolute;
+	z-index: 10000;
+	background-color: Gray;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+}
+/* Modal div styles end */
+
+/* Panel styles start */
+.modal-popup
+{
+	font-family: arial,helvetica,clean,sans-serif;
+	font-size: small;
+	padding: 2px 3px;
+	display: block;
+	position: absolute;
+	z-index: 1;
+}
+
+.modal-container
+{
+	border: solid 1px #808080;
+	border-width: 1px 0px;
+}
+
+.modalHeader
+{
+	background: url('images/sprite.png') repeat-x 0px -200px;
+	color: #000;
+	border-color: #808080 #808080 #ccc;
+	border-style: solid;
+	border-width: 0px 1px 1px;
+	padding: 3px 10px;
+	text-align: left;
+}
+
+.modal-popup .header .modal-msg
+{
+	font-weight: bold;
+}
+
+.modal-popup .modalBody
+{
+	background-color: #f2f2f2;
+	border-color: #808080;
+	border-style: solid;
+	border-width: 0px 1px;
+	padding: 10px;
+}
+
+.modal-popup .modalBody .modal-msg
+{
+	font-family: arial,helvetica,clean,sans-serif;
+	font-size: small;
+	background: url('images/sprite.png') no-repeat 0px -1150px;
+	float: left;
+	padding-left: 22px; /* */
+}
+.modal-popup .modalFooter
+{
+	background: url('images/sprite.png') repeat-x 0px -200px;
+	border-color: #ccc #808080 #808080 #808080;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+	text-align: right;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-right: 8px;
+}
+
+.modal-popup .modalClose
+{
+	right: 7px;
+	background: url('images/sprite.png') no-repeat 0px -300px;
+	width: 25px;
+	cursor: pointer;
+	position: absolute;
+	top: 7px;
+	height: 15px;
+}
+
+.button_popup
+{
+	cursor: pointer;
+	border-width: 1px;
+	background-color: #f2f2f2;
+	border-color: #808080;
+	width: 50px;
+}
+.unit-label
+{
+	color: blue;
+	width: 55px;
+	float: left;
+	font-size: 12px;
+}
+.unit-value
+{
+	color: blue;
+	margin-left: 55px;
+	font-size: 12px;
+}
+.ping-status-label
+{
+	color: black;
+	width: 55px;
+	float: left;
+	font-size: 12px;
+}
+.ping-status-name
+{
+	margin-left: 55px;
+	width: 240px;
+	color: Red;
+	font-size: 12px;
+}
+.ping-div
+{
+	margin-top: 5px;
+	width: 295px;
+}
+.lastLocation
+{
+	color: black;
+	font-size: 12px;
+}
+#aLastKnownLocation
+{
+	text-decoration: underline;
+	color: Blue;
+	font-size: 12px;
+}
+.ping-timer
+{
+	margin-left: 55px;
+	font-size: 12px;
+	color: black;
+}
+.tlegend
+{
+	height: 250px;
+	width: 100%;
+}
+
+
+/* Custom css*/
+.k-grid td
+{
+	/*white-space: nowrap;
+	overflow: hidden;*/ /*overflow-x:hidden;     overflow-y:hidden;*/
+}
+.k-grid tbody .k-button
+{
+	min-width: auto;
+}
+
+.k-block, .k-widget, .k-inline-block, .k-textbox > input, .k-input[type="text"], .k-input[type="number"], .k-textbox, .k-picker-wrap .k-input, .k-button, .k-draghandle
+{
+	font-size: 80%;
+}
+
+.k-grid-header .k-header
+{
+	padding: 1px 3px 1px 7px;
+}
+.k-grid td
+{
+	padding: 3px 3px 2px 7px;
+}
+.k-pager-info, .k-pager-sizes
+{
+	font-size: 12px;
+}
+.k-grid-content {
+    max-height: 85px;
+}
+
+.qnModalHeader {
+    background-image: url("images/menu-bg.jpg") !important;
+    border-style: solid;
+    border-width: 0 1px 1px;
+    padding: 3px 10px;
+    text-align: left;
+}
+.tabs div {
+  word-wrap:break-word;
+}
+
+#truckKendoGrid table 
+{
+    border-spacing:0px;
+}

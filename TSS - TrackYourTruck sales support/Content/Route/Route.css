@@ -1,0 +1,152 @@
+﻿.gm-style
+{
+    font-size: 12px;
+}
+.gmap-control-container
+{
+    margin: 5px;
+}
+.gmap-control
+{
+    cursor: pointer;
+    background-color: -moz-linear-gradient(center top , #FEFEFE, #F3F3F3);
+    background-color: #FEFEFE;
+    border: 1px solid #A9BBDF;
+    border-radius: 2px;
+    padding: 0 6px;
+    line-height: 150%;
+    font-size: 11px;
+    font-family: Roboto,Arial,sans-serif;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.35);
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.gmap-control:hover
+{
+    border: 1px solid #678AC7;
+}
+.gmap-control-active
+{
+    /*background-color: -moz-linear-gradient(center top , #6D8ACC, #7B98D9);
+    background-color: #6D8ACC;*/
+    color: #000;
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid #678AC7;
+}
+.gmap-control-legend
+{
+    position: absolute;
+    text-align: left;
+    z-index: -1;
+    top: 20px;
+    right: 0;
+    width: 120px;
+    background: #FEFEFE;
+    border: 1px solid #A9BBDF;
+    padding: 10px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.35);
+}
+.gmap-control-legend ul
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.gmap-control-legend li
+{
+    line-height: 160%;
+}
+
+.kd-button
+{
+    display: inline-block;
+    /*min-width: 54px;*/
+    border: 1px solid #dcdcdc;
+    border: 1px solid rgba(0,0,0,0.1);
+    text-align: center;
+    color: #444;
+    font-size: 85%;
+    font-weight: bold;
+    height: 27px;
+    padding: 0 3px;
+    line-height: 27px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -o-transition: all 0.218s;
+    transition: all 0.218s;
+    background-color: #f5f5f5;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#f5f5f5),to(#f1f1f1));
+    background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background-image: -moz-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background-image: -ms-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background-image: -o-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f5f5f5',EndColorStr='#f1f1f1');
+}
+
+.dir-reverse
+{
+    background: no-repeat url('//maps.gstatic.com/mapfiles/dir/dl6.png') -10px -489px;
+    width: 10px;
+    height: 12px;
+}
+
+.kd-button img
+{
+    display: inline-block;
+    margin: -3px 0 0;
+    opacity: 0.55;
+    vertical-align: middle;
+}
+
+.dir-rev-wrapper
+{
+    position: relative; 
+    right: -279px; 
+    top: -8px;
+}
+
+.dir-rev
+{
+    position: absolute;
+}
+
+/****************Context Menu Styles*********************/
+
+.context_menu{
+	background-color:white;
+	border:1px solid rgba(0, 0, 0, 0.2);
+	outline: medium none;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    max-width: 265px;
+    transform: translate3d(0px, 0px, 0px);
+}
+.context_menu_item{
+	color: #333333;
+    cursor: default;
+    font-size: 13px;
+    font-weight: normal;
+    list-style: none outside none;
+    margin: 0;
+    padding: 6px 44px 6px 16px;
+    white-space: nowrap;
+}
+.context_menu_item:hover{
+	background-color:#CCCCCC;
+}
+.context_menu_separator{
+	background-color:gray;
+	height:1px;
+	margin:0;
+	padding:0;
+}
+#clearDirectionsItem, #getDirectionsItem{
+	display:none;
+}

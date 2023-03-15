@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A2949530-E37C-4494-B856-6D8C280353A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NetTrackModel</RootNamespace>
+    <AssemblyName>NetTrackModel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseModel.cs" />
+    <Compile Include="BluePayACHTransactionModel.cs" />
+    <Compile Include="BluePayLogModel.cs" />
+    <Compile Include="BluePayResponse.cs" />
+    <Compile Include="BluePaySettingsModel.cs" />
+    <Compile Include="BluePayTransactionModel.cs" />
+    <Compile Include="ChkBoxListSourceModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClientModel.cs" />
+    <Compile Include="CommonDDLmodel.cs" />
+    <Compile Include="ContactModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ControlSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EmailTemplateModel.cs" />
+    <Compile Include="MyAccountModel.cs" />
+    <Compile Include="OrderStatusHistory.cs" />
+    <Compile Include="QuoteEmailUnsubscribeModel.cs" />
+    <Compile Include="QuoteLastViewModel.cs" />
+    <Compile Include="QuoteLinkMappingModel.cs" />
+    <Compile Include="QuoteOrderModel.cs" />
+    <Compile Include="ErrorHandlerModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="newZohoContacts.cs" />
+    <Compile Include="Params\ImageSetInputParams.cs" />
+    <Compile Include="Params\InputParams.cs" />
+    <Compile Include="Params\OutParams.cs" />
+    <Compile Include="Params\StatusCodesInputParams.cs" />
+    <Compile Include="Params\TerminalInputParams.cs" />
+    <Compile Include="PreferenceModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProductModel.cs" />
+    <Compile Include="QuoteModel.cs" />
+    <Compile Include="QuotePaymentMethodModel.cs" />
+    <Compile Include="QuoteProductModel.cs" />
+    <Compile Include="ShipperAddressModel.cs" />
+    <Compile Include="TemplateGroupModel.cs" />
+    <Compile Include="QuoteTemplateModel.cs" />
+    <Compile Include="SalesOrderModel.cs" />
+    <Compile Include="SalesPerson.cs" />
+    <Compile Include="SalesTaxModel.cs" />
+    <Compile Include="SecurityGroupModel.cs" />
+    <Compile Include="SecurityGroupSalesPersonModel.cs" />
+    <Compile Include="TSSSentEmailModel.cs" />
+    <Compile Include="TSSSettings.cs" />
+    <Compile Include="TssShippingEmailLogModel.cs" />
+    <Compile Include="TssShippingModel.cs" />
+    <Compile Include="UgClientsModel.cs" />
+    <Compile Include="UgsClientModel.cs" />
+    <Compile Include="UgsStatusCodeModel.cs" />
+    <Compile Include="UgUserModel.cs" />
+    <Compile Include="UgUserModelWrapper.cs" />
+    <Compile Include="UserSessionModel.cs" />
+    <Compile Include="DdlSourceModel.cs" />
+    <Compile Include="IDdlSourceModel.cs" />
+    <Compile Include="UgsCustomMessage.cs" />
+    <Compile Include="UserStateModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserModel.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

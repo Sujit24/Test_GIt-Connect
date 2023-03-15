@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=0.7,minimum-scale=0.7,maximum-scale=0.7, target-densitydpi=medium-dpi">
+    <title>TSS - TrackYourTruck sales support</title>
+    @{
+        string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+    }
+    @*<link href="@Url.Content("~/Content/style-v2.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/style-v2.min.css")?@version" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/reset.css")?@version" rel="stylesheet" type="text/css"  />
+    @*<link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")?@version" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/kendo/kendo.common.minNew.css")?@version" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/kendo.uniform.min.css")?@version" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/kendo/Kendo-GridOverwrite.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/kendo/Kendo-GridOverwrite.min.css")?@version" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/Admin_Style_1.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/Admin_Style_1.min.css")?@version" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/footer.css")?@version" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/footer.min.css")?@version" rel="stylesheet" type="text/css" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap/css/bootstrap-3.3.1.css")?@version">
+    <style type="text/css">
+        div#loading
+        {
+            display: none;
+            font: 16px Tahoma,Geneva,sans-serif;
+            left: 50%;
+            margin-left: -35px;
+            margin-top: -50px;
+            overflow: auto;
+            padding: 10px;
+            position: fixed;
+            text-align: center;
+            top: 50%;
+            z-index: 10001;
+        }
+        .BackgroundStyle
+        {
+            background-color: #000000;
+            opacity: 0.7;
+        }
+    </style>
+    <style rel="stylesheet">
+        .totalTable
+        {
+            border-collapse: collapse;
+            font-family: "Trebuchet MS" ,Arial,Helvetica,sans-serif;
+            width: 100%;
+        }
+        .productTable
+        {
+            border-collapse: collapse;
+            font-family: "Trebuchet MS" ,Arial,Helvetica,sans-serif;
+            width: 100%;
+            font-size: 10px;
+        }
+        .productTable td, .productTable th
+        {
+            /*border: 1px solid cadetblue;*/
+            font-size: 1.2em; /*padding: 10px 7px 2px;*/
+            padding-left: 7px;
+            vertical-align: top;
+        }
+        .productTable th
+        {
+            /*background-color: steelblue;
+        color: #fff;*/
+            font-size: 1.4em;
+            padding-bottom: 6px;
+            padding-top: 5px;
+            text-align: left;
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .productTable tr.alt td
+        {
+            background-color: #eaf2d3;
+            color: #000;
+        }
+        .label-width
+        {
+            width: 150px;
+        }
+        .login-header-height
+        {
+            height: 60px !important;
+        }
+        .logo-height
+        {
+            height: 44px !important;
+        }
+    </style>
+    <script src="@Url.Content("~/Scripts/Libs/jquery/jquery-1.8.3.min.js")?@version" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Scripts/Libs/kendo/kendo.all.min.js")?@version" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/Libs/kendo/update/kendo.core.min.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Common/Common.js")?@version" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Common/ListViewUtility.js")?@version" type="text/javascript"></script>
+    <script type="text/javascript">
+        var baseUrl = "@System.Configuration.ConfigurationManager.AppSettings["baseUrl"]";
+
+        var firstUnit = @System.Configuration.ConfigurationManager.AppSettings["FirstUnit"];
+        var additionalUnit = @System.Configuration.ConfigurationManager.AppSettings["AdditionalUnit"];
+        var secondDayAir = @System.Configuration.ConfigurationManager.AppSettings["SecondDayAir"];
+        var nextDayAir = @System.Configuration.ConfigurationManager.AppSettings["NextDayAir"];
+
+        var shippingAndHandlingServiceFee = @System.Configuration.ConfigurationManager.AppSettings["ShippingAndHandlingServiceFee"];
+
+        var discount10ProductId = @System.Configuration.ConfigurationManager.AppSettings["Discount10ProductId"];
+        var discount15ProductId = @System.Configuration.ConfigurationManager.AppSettings["Discount15ProductId"];
+        var discount20ProductId = @System.Configuration.ConfigurationManager.AppSettings["Discount20ProductId"];
+    </script>
+</head>
+<body style="min-width: 470px">
+    <div class="login-header login-header-height" style="margin-top: -20px;">
+        <div style="height: 100%;">
+            <h1 style="font-weight: bold; padding-top: 0px; padding-left: 20px; color: white;
+                font-size: 28px;">
+                <img class="logo-height" style="margin-top: 7px;" alt="/" src="@Url.Content("~/Content/images/TYTlogo1.png")" ></h1>
+        </div>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+    <div id="backgroundElement" style="display: none; position: fixed; left: 0px; top: 0px;
+        z-index: 10000; width: 100%; height: 100%;" class="BackgroundStyle">
+    </div>
+    <div id='loading' style="display: none;">
+        <img src="@Url.Content("~/Content/kendo/Default/loading-image.gif")" title="Loading" />
+        <div id="loadingInfoSH" style="display: none; position: fixed;">
+            <b style="color: white"></b>
+        </div>
+    </div>
+    <ul class="footer_fullwidth" id="footer">
+    </ul>
+</body>
+</html>

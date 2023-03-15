@@ -1,0 +1,168 @@
+﻿@using System.Configuration
+@{
+    ViewBag.Title = "TSS - TrackYourTruck sales support";
+    string version = System.Configuration.ConfigurationManager.AppSettings["version"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="@Url.Content("~/scripts/libs/bootstrap/bootstrap-transition.js")?@version" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/libs/bootstrap/bootstrap-modal.js")?@version" type="text/javascript"></script>
+<style type="text/css">
+    #zuhu-modal-wrapper .k-grid
+    {
+        /*border-color: #9cb4c9;
+        border-radius: 4px;
+        border-style: solid;
+        border-width: 2px 2px medium;*/
+    }
+    #zuhu-modal-wrapper .k-header
+    {
+        border-style: solid;
+        border-width: 0 0 1px 1px;
+        overflow: hidden;
+        padding: 0.5em 0.6em 0.4em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    #zuhu-modal-wrapper .k-header .k-link
+    {
+        display: block;
+        line-height: 18px;
+        margin: -0.5em -0.6em -0.4em;
+        min-height: 18px;
+        padding: 0.5em 0.6em 0.4em;
+    }
+    #zuhu-modal-wrapper .modal
+    {
+        left: 50%;
+        margin: -250px 0 0 -285px;
+        width: 570px;
+    }
+    #zuhu-modal-wrapper .k-grid table tr:hover
+    {
+        background-image: none, linear-gradient(to bottom, #fff 0px, #efefef 100%);
+        cursor: pointer;
+        box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.6) inset, 0 0 2px rgba(0, 0, 0, 0.3);
+        border-color: #ccc;
+        color: #676767;
+    }
+    #zuhu-modal-wrapper #zuhu-modal-overlay
+    {
+        background-color: #dcdcdc;
+        display: none;
+        height: 100%;
+        opacity: 0.75;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        left: 0;
+    }
+    #zuhu-modal-wrapper #zuhu-modal-overlay img
+    {
+        background-color: #888;
+        border-radius: 3px;
+        left: 50%;
+        margin: -24px;
+        position: absolute;
+        top: 50%;
+    }
+    #zuhu-modal-wrapper .modal-body
+    {
+        position: relative;
+    }
+</style>
+<script src="@Url.Content("~/Scripts/QuoteTemplate/List.js")?@version" type="text/javascript"></script>
+<div class="content-inner">
+    <div class="container-fluid">
+        <div class="contentHolder">
+            <div class="row-fluid">
+                <div class="span12">
+                    <br>
+                    <h2>
+                        Quote Template List</h2>
+                    <hr style="border-color: yellowgreen;">
+                    <div class="contentHolder">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <span>
+                                    <label>
+                                        Search:
+                                    </label>
+                                    <select id="searchSelect" style="width: 150px">
+                                        <option value="TemplateName">Template Name</option>
+                                        <option value="CustomerName">Customer Name</option>
+                                    </select>
+                                    <input id="searchText" type="text" style="width: 200px" />
+                                    <a id="search" role="button" class="btn btn-info" style="margin-top: -10px">Search</a>&nbsp;<a
+                                        id="resetSearch" role="button" class="btn btn-warning" style="margin-top: -10px">
+                                        Clear</a>
+                                    @if (TSS.Helper.SessionVars.CurrentLoggedInUser != null && TSS.Helper.SessionVars.CurrentLoggedInUser.IsTSSAdmin)
+                                    {<a onclick="removeFromGrid();" class="btn btn-danger" role="button" style="margin-top: -10px">
+                                        Delete Selected</a>}</span><span style="margin-left: 20px"><a style="margin-top: -10px"
+                                            role="button" class="btn btn-primary" onclick="New();">Add New</a> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px">
+                    </div>
+                    <div>
+                        <div id="divKendoGrid">
+                        </div>
+                        <div id="pager">
+                        </div>
+                    </div>
+                    <div id="detail-container">
+                    </div>
+                    <script id="date-template" type="text/x-kendo-template">
+                        <div>#= CreatedDateFormated #</div>
+                    </script>
+                    <script id="is-active-template" type="text/x-kendo-template">
+                        <center>
+                            #if (IsActive) {#
+                                <input type="checkbox" checked="checked" onclick="SetActive(#=QuoteId#, this)" />      
+                            #} else {#
+                                <input type="checkbox" onclick="SetActive(#=QuoteId#, this)" />      
+                            #}#
+                        </center>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="zuhu-modal-wrapper">
+    <!-- Modal -->
+    <div id="sendEmailModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×</button>
+            <h3 id="myModalLabel">
+                Send Email</h3>
+        </div>
+        <div class="modal-body">
+            <div id="modal-wrapper">
+                <input id="sendNowId" type="hidden" />
+                <input id="mailQuoteId" type="hidden" />
+                <input id="customerName" type="hidden" />
+                <div>
+                    <b>To:</b><br />
+                    <input id="mailTo" type="text" style="width: 98%" />
+                </div>
+                <div>
+                    <b>Message:</b><br />
+                    <textarea rows="3" id="mailBody" style="width: 98%"></textarea>
+                </div>
+            </div>
+            <div id="zuhu-modal-overlay">
+                <img title="Loading" src="@Url.Content("~/Content/kendo/Default/loading-image.gif")">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                Close</button>
+            <button class="btn btn-primary" id="btnSendEmail" onclick="SendEmail();">
+                Send Email</button>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>

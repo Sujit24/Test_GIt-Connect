@@ -1,0 +1,52 @@
+﻿.gmap-control-container {
+    margin: 5px 0px 5px 5px;
+}
+.gmap-control {
+    cursor: pointer;
+    background-color: -moz-linear-gradient(center top , #FEFEFE, #F3F3F3);
+    background-color: #FFFFFF;
+    border: 1px solid #717B87;/*#A9BBDF*/
+    border-radius: 0px;
+    padding: 0 6px;
+    line-height: 148%;
+    font-size: 12px;
+    font-family: Arial,sans-serif;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.35);
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.gmap-control:hover {
+    border: 1px solid #678AC7;
+}
+.gmap-control-active {
+    background-color: -moz-linear-gradient(center top , #6D8ACC, #7B98D9);
+    background-color: #FFFFFF;
+    color: #000000;
+    font-weight: bold;
+    border: 1px solid #717B87;/*#678AC7;*/
+}
+.gmap-control-legend {
+    position: absolute;
+    text-align: left;
+    z-index: -1;
+    top: 20px;
+    right: 0;
+    width: 58px;
+    height: 51px;
+    font-size: 10px;
+    background: #FEFEFE;
+    border: 1px solid #717B87;/*#A9BBDF;*/
+    padding: 0 9px 10px 0;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.35);
+}
+.gmap-control-legend ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.gmap-control-legend li {
+    line-height: 150%;
+}
